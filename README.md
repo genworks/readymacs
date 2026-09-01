@@ -1,5 +1,6 @@
 <!--
-Copyright © 2026 Gornskew Enterprises
+Copyright © 2026 Genworks International
+Portions Copyright © 2026 Gornskew Enterprises
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
@@ -8,160 +9,134 @@ License, or (at your option) any later version.  Distributed WITHOUT
 ANY WARRANTY; see <https://www.gnu.org/licenses/agpl-3.0.html>.
 -->
 
-# Readymax: a Ship's Ready Room, a land-side Lifepod, or a galaxy-traveling Space Suit — pre-crewed with a Captain
+# Readymacs: a Ready-to-Run Emacs for People and AI Agents
 
-Aboard a [Basilisk](https://gornskew.com/basilisk/index.html)-class
-vessel, the ready room is the quiet room off the bridge where the
-ship's business gets thought through. The room comes with a Captain
-and a Protocol Officer. The Captain — of the notoriously long-lived
-Gnu Emacs species — keeps the room; the **Protocol Officer**
-interviews arriving cyborgs, schools them in the ship's ways, and
-dispatches each to the crew member it came to see, so that cyborgs may
-call on the Captain himself, or the First Officer, Engineer, or any
-other cyborg-capable crew.
+Readymacs is a complete, batteries-included GNU Emacs distribution
+built for AI-assisted Lisp development. It runs three ways: as the
+interactive **console** of a [Basalt](https://gitlab.genworks.com/genworks/basalt)
+deployment, as a **standalone container**, or **directly on your
+host** as a conventional Emacs configuration. In every mode it
+carries a built-in MCP endpoint (the lisply backend) through which AI
+agents — Claude Desktop, Claude Code, Cursor, Gemini CLI, Codex, LM
+Studio, or anything else that speaks
+[MCP](https://modelcontextprotocol.org) — can work alongside you in
+the same running Emacs.
 
-Readymax is the module sku for that room when used either _aboard
-ship_ or _grounded_. When _aboard ship_, the room slots into its
-designed place in the Basilisk hull, off the bridge, and plugs
-automatically into the ship's rune tube lattice.  When _grounded_,
-this same readymax module sku sets down as the _captain's lifepod_:
-siteable at any standard planet-side residential pod dock, no
-prewiring to any neighbors, near or far.
+Readymacs is the Genworks-maintained fork of
+[Readymax](https://github.com/gornskew/readymax).
 
-Finally, the Captain can survive the galaxy entirely on his own —
-**unhoused, but wearing his space suit**: yes, the chest of scrolls
-can replicate and morph itself into the Captain's spacesuit, rather
-than conjuring a lifepod or ship's ready room to house him. 
+![Readymacs Logo](img/skewed-colorful.png)
 
+## Why Readymacs? The Inversion
 
-![Readymax Logo](img/skewed-colorful.png)
+The prevailing custom is to embed one AI agent *inside* the editor:
+wired into a single application, speaking only through it, one more
+fixture among the features. The editor is the agent's whole world.
 
-## Why Readymax? The Inversion
+Readymacs inverts that arrangement. The environment embeds no agent;
+it *receives* them. Any MCP-capable client can connect from outside,
+and the running Emacs — its buffers, its REPLs, its tooling — joins
+the visiting agent's own toolkit: files opened, code evaluated,
+builds run, at the visitor's initiative and under your supervision.
 
-Elsewhere in the galaxy, the custom is to keep a cyborg *in* the
-room: wired into a single scroll, speaking only through it, one
-more fixture among the furnishings. The room is the world, and the
-cyborg lives in a bottle on a shelf.
+Nor is the reception unique to Emacs. In a Basalt deployment the
+Gendl engine services answer the same lightweight HTTP protocol
+(called *Lisply*), and offer a connecting agent the same reception —
+each service in its own Lisp dialect.
 
-Readymax inverts the arrangement. This room keeps no cyborg; it
-*receives* them. The Protocol Officer hands each arrival the room's
-channels, and with them the room itself joins the visiting cyborg's
-own kit: scrolls opened, incantations worked, scriveners set about
-their copying — at the visitor's initiative, under the Captain's
-command.
-
-Nor is it only this room, nor only the Captain. It is the
-*residents* who keep the channels: in the Gendl rooms, a First
-Officer or a Ship's Engineer answers the lisply dialect the same
-way, and offers a visiting cyborg the same reception — each
-resident working his own rune arrangement.
-
-And it matters not what vessel your cyborg arrives in: Claude
-Desktop, Claude Code, Cursor, Grok Build, Gemini CLI, Codex, LM
-Studio, or any craft of your own that speaks MCP.
-
-This repository is the ready room's own scroll. The wider vision —
-whole vessels raised and struck with a word, each with a full crew
-of rune-working residents — lives with the
-[Basilisk](https://github.com/gornskew/basilisk) shipyard.
-
-<!-- demo GIF: record per docs/DEMO_GIF.md, save as img/demo.gif, then
-     uncomment:
-![30-second demo](img/demo.gif)
--->
+This repository covers the Emacs environment itself. The wider
+arrangement — whole service stacks started and stopped with one
+command, every service agent-ready — lives with the
+[Basalt](https://gitlab.genworks.com/genworks/basalt) build system.
 
 ## What Will I Find Here?
 
-This Readymax repository holds two assets:
+This repository holds two assets:
 
-1.  the chest of scrolls itself: the complete fittings of the room,
-    the Captain's own configuration, with the Protocol Officer's
-    post (the lisply backend) among them. Worn on its own, this is
-    the space suit — no part of (2) required.
+1.  the complete Emacs configuration — `dot-files/` — including the
+    MCP (lisply) backend. Installed directly on a host, this is the
+    whole product; no part of (2) is required.
 
-2.  the shipwright's plans: a Dockerfile for casting the room as a
-    container image, the chest of scrolls (as per (1) above)
-    already stowed for the built-in `emacs-user` account.
+2.  the build materials: a Dockerfile and scripts for casting the
+    configuration as a container image, with the configuration
+    pre-installed for the built-in `emacs-user` account.
 
-Raising that image alongside Gendl rooms and the rest of a working
-crew is a third thing with its own yard:
-**[Basilisk](https://github.com/gornskew/basilisk)**. Basilisk is the
-shipyard and the ship (`./basilisk up`, from a Basilisk clone);
-**Readymax** is the ready room and the image that carries it.
+Running that image alongside Gendl engine services and the rest of a
+working deployment is a third thing with its own repository:
+**[Basalt](https://gitlab.genworks.com/genworks/basalt)**. Basalt is
+the deployment; **Readymacs** is the console and the image that
+carries it.
 
-Aboard, the room's Docker compose service name is `ready-room`, and
-the container itself wears a crew name minted fresh at each raising
-of the ship. See **BASILISK.md in the Basilisk repo** for the rooms,
-the crew postings, and the rest of the trope.
+In a deployment, the console's Docker compose service answers on the
+network by its service hostname, while the container itself carries a
+generated instance name assigned at startup. See the Basalt
+documentation for the service roster and naming rules.
 
-## The Captain's Three Postings
+## The Three Installation Modes
 
-**Posting A — Aboard Ship (recommended):** fetch the Basilisk scrolls
-and speak the incantation `./basilisk up` there. A whole vessel
-comes up around the ready room.
+**Mode A — In a Basalt Deployment (recommended):** clone the
+[Basalt](https://gitlab.genworks.com/genworks/basalt) repository and
+run `./basalt up` there. A whole deployment comes up around the
+console: Emacs, Gendl engine services, monitoring.
 
-That pulls and raises several Docker containers and leaves your host
-machine untouched except for two hailing calls (`rmax`/`grmax`)
-made available in your shell (bash, zsh, ksh, or plain sh). You
-need not speak `./setup`. You do not need Emacs installed on your
-host. You do need docker installed on your host.
+That pulls and starts several Docker containers and leaves your host
+machine untouched apart from shell convenience commands for reaching
+the containerized Emacs (see the Basalt README). You do not need to
+run `./setup`. You do not need Emacs installed on your host. You do
+need Docker.
 
-**Posting B — The Lifepod, Ashore:** the readymax module sets down
-at any residential pod dock with Docker fitted — no prewiring to
-any neighbors, near or far. From a clone of these scrolls, speak:
+**Mode B — Standalone Container:** the image runs freestanding on
+any machine with Docker — no deployment, no other services. From a
+clone of this repository:
 
 ```bash
 docker/run
 ```
 
-The pod comes up freestanding: the Captain at his desk, the
-Protocol Officer on watch (host port 7081 by default; `-p` chooses
+The container comes up self-contained: the Emacs daemon running, the
+MCP endpoint listening (host port 7081 by default; `-p` chooses
 another), your `~/projects/` mounted at `/projects` when it exists.
-No ship, no crew — just the pod, ashore.
 
-**Posting C — Unhoused, in the Space Suit:** speak the incantation
-`./setup`. The Readymax scrolls take their places in your host
-account (`~/.emacs.d`, `~/.bash_profile`, etc.) — the Captain's
-survival gear, worn by your own personal host Emacs. Does not start
-any containers. MCP support is **off by default** in the suit: the
-suit's hatch — the lisply-backend endpoints — stays sealed until
-you open it (`./setup --with-mcp` or, from inside Emacs,
-`M-x lisply-enable-host-server`). Two things vary with a suited
-Captain: whether the hatch is open, and whether a Protocol Officer is
-within reach (he needs a lisply-mcp post to stand). An open hatch
-with no officer is not a closed one — cyborgs who know the way can
-sneak in and reach the Captain unannounced, no interview, no
-education packet; it has been seen done. An officer with no open
-hatch admits nobody at all. **The hatch, not the officer, is the
-lock.** Read
-[docs/HOST_EMACS_MCP.md](docs/HOST_EMACS_MCP.md) first: on the host
-this grants arbitrary code execution on your machine and is not
-sandboxed the way the shipboard path is. You do need emacs already
-installed on your host for it to make sense to use this.
+**Mode C — Direct Host Installation:** run `./setup`. The Readymacs
+configuration files are linked into your host account (`~/.emacs.d`,
+`~/.bash_profile`, etc.) for use by your own host Emacs. This starts
+no containers. MCP support is **off by default** in this mode: the
+lisply-backend endpoints stay disabled until you enable them
+(`./setup --with-mcp` or, from inside Emacs,
+`M-x lisply-enable-host-server`). Two things vary in a host
+installation: whether the endpoints are enabled, and whether an MCP
+wrapper ([lisply-mcp](https://gitlab.genworks.com/genworks/lisply-mcp))
+is configured in front of them. Understand that the endpoints, not
+the wrapper, are the security boundary: enabled endpoints accept any
+HTTP client that reaches them, wrapper or no wrapper, while a
+configured wrapper with disabled endpoints admits nothing at all.
+Read [docs/HOST_EMACS_MCP.md](docs/HOST_EMACS_MCP.md) first: on the
+host this grants arbitrary code execution on your machine and is not
+sandboxed the way the containerized modes are. Mode C only makes
+sense if Emacs is already installed on your host.
 
-**Any combination:** the postings are independent and each
-idempotent — a suit on the host (`./setup`), a lifepod at the
-dock (`docker/run`), and a full vessel raised alongside
-(`./basilisk up`) can all coexist on one machine.
+**Any combination:** the modes are independent and each idempotent —
+a host installation (`./setup`), a standalone container
+(`docker/run`), and a full deployment (`./basalt up`) can all coexist
+on one machine.
 
-**Note:** The ./setup is meant for new Emacs installations where you
-don't have or don't care about your personal setup. If you are an
-experienced Emacs user with a preëxisting setup, then you can run
+**Note:** `./setup` is meant for new Emacs installations where you
+don't have, or don't mind replacing, a personal configuration. If
+you are an experienced Emacs user with a preëxisting setup, run
 `./setup --dry-run` to see what it would do without touching your
-own scrolls, then wire your own init scrolls into the standard
-Readymax ones.
+files, then wire your own init files into the standard Readymacs
+ones.
 
 ## Features
 
 ### Native Emacs Config
 
-- **The day-board (`*dashboard*`)**, kept current by one of the
-    room's scrivener 'bots: your project scrolls and their
-    freshness, the health of every crew channel aboard, the day's
-    orders (org-mode daily focus), and doors into slime with any
-    rune-fluent resident aboard. Ashore or unhoused, the marquee flies
-    READY MAX; aboard ship, the room hangs out its shipboard
-    shingle instead: READY ROOM, with the Captain's sign beneath it.
+- **The dashboard (`*dashboard*`)**, kept current by a background
+    refresh process: your project directories and their freshness,
+    the health of every service endpoint in the deployment, the
+    day's org-mode agenda, and one-key entry into SLIME with any
+    connected Lisp service. In a deployment, the banner reflects
+    the console's service identity.
 
 - **Preïnstalled, pre-native-compiled third-party packages** (examples):
   - [Slime](https://en.wikipedia.org/wiki/SLIME) for Common Lisp / Swank
@@ -169,65 +144,63 @@ Readymax ones.
   - Magit, Org-mode
   - Doom Color Themes, theme switching functions
 
-- **Lisply-MCP (Model Context Protocol) Elisp Backend** — the
-    Protocol Officer's post (the fine print: the Protocol Officer
-    is a 'bot, not a biological):
-  - lets cyborgs call on the Captain thru standard lisply-mcp.
+- **Lisply-MCP (Model Context Protocol) Elisp Backend** — the MCP
+    service surface:
+  - lets AI agents drive the running Emacs through standard
+    [lisply-mcp](https://gitlab.genworks.com/genworks/lisply-mcp).
   - Defined & sideloaded locally from
     `dot-files/emacs.d/sideloaded/lisply-backend/`
-  - See The Protocol Officer's Desk below — this is a
+  - See The MCP Configuration Surface below — this is a
     configuration surface worth understanding, not furniture.
 
-- **From the yard**: the room is cast from the plans in
-    `docker/Dockerfile` by `docker/build`; castings from Gornskew
-    HQ are pushed to tagged `gornskew/readymax` versions at
-    Dockerhub.
+- **Image builds**: the container image is built from
+    `docker/Dockerfile` by `docker/build`. (Until Genworks image
+    coordinates are published, the upstream `gornskew/readymax`
+    images on Docker Hub are drop-in compatible.)
 
-### The Protocol Officer's Desk — the MCP configuration surface
+### The MCP Configuration Surface
 
-The Protocol Officer is working gear, not decoration: his service
-record is public ([lisply-mcp](https://github.com/gornskew/lisply-mcp)),
-he stands between arriving cyborgs and the Captain, and you should
-know what crosses his desk.
+The MCP layer is working gear, not decoration: its implementation is
+public ([lisply-mcp](https://gitlab.genworks.com/genworks/lisply-mcp)),
+it stands between connecting agents and your running Emacs, and you
+should know what passes through it.
 
-**What he does.** He speaks MCP to the visitor on one side and
-plain HTTP to the room on the other. The Captain answers a small
-HTTP dialect on port 7080 in-container (`/lisply/lisp-eval`,
-`/lisply/ping-lisp`, ...), and any resident speaking that same
-dialect gets the same service — which is why one officer's
-procedures serve the Captain and the Gendl rooms' residents alike,
-each working his own rune arrangement.
+**What it does.** The wrapper speaks MCP to the client on one side
+and plain HTTP to the backend on the other. The Emacs daemon answers
+a small HTTP dialect on port 7080 in-container
+(`/lisply/lisp-eval`, `/lisply/ping-lisp`, ...), and any service
+speaking that same dialect gets the same treatment — which is why one
+wrapper configuration serves the Emacs console and the Gendl engine
+services alike, each in its own Lisp.
 
-**The tools he grants an arriving cyborg:**
+**The tools it presents to a connecting agent:**
 
 | Tool | What it does |
 |------|--------------|
-| `lisp_eval` | an incantation worked in the resident's own rune arrangement — the working channel |
+| `lisp_eval` | evaluate code in the service's own Lisp — the working channel |
 | `ping_lisp` | is anyone home |
-| `get_docs` / `get_docs_list` | the ship's education packets, served on demand |
-| `http_request` | reach the room's HTTP services through one gate |
-| `skewed_search` | search the ship's indexed document corpus (Readymax rooms) |
+| `get_docs` / `get_docs_list` | built-in documentation, served on demand |
+| `http_request` | reach the service's HTTP endpoints through one gate |
+| `skewed_search` | search the indexed document corpus (Readymacs consoles) |
 
-**Where he takes his orders.** Aboard ship, `./basilisk up`
-generates the client registries (`mcp/claude_desktop_config.json`
-for Claude Desktop, and the matching form for each translator
-aboard). In the lifepod he stands watch just as he does aboard. In
-the space suit he stands only where a lisply-mcp post is within
-reach — and either way, know that the officer is the reception, not
-the lock. The lock is the **hatch**: the lisply endpoints
-themselves, which a cyborg fluent in the backend dialect can call
-at directly, no officer involved. Aboard and in the lifepod that
-is fine — the room is the sandbox and the hatch opens inside it. In
-the suit it is exactly why the hatch stays sealed by default (see
-Posting C).
+**Where it gets its configuration.** In a deployment, `./basalt up`
+generates the client registries (`mcp/claude_desktop_config.json` for
+Claude Desktop, and the matching form for each bundled agent CLI). In
+the standalone container the endpoint listens just as it does in a
+deployment. On the host it works only where a lisply-mcp wrapper is
+configured — and either way, the wrapper is reception, not the lock.
+The lock is the **endpoints** themselves, which any HTTP client that
+reaches them can call directly, no wrapper involved. In the
+containerized modes that is fine — the container is the sandbox and
+the endpoints open inside it. On the host it is exactly why they stay
+disabled by default (see Mode C).
 
-**What to understand before opening the gate.** `lisp_eval` is
-arbitrary code execution, by design. In the container, that is the
-point — the room is the sandbox. In the suit it is your host
-machine; read [docs/HOST_EMACS_MCP.md](docs/HOST_EMACS_MCP.md)
-before standing him up there.
+**What to understand before enabling it.** `lisp_eval` is arbitrary
+code execution, by design. In a container, that is the point — the
+container is the sandbox. On the host it is your machine; read
+[docs/HOST_EMACS_MCP.md](docs/HOST_EMACS_MCP.md) first.
 
-### The Spyglass — page captures from inside the room
+### Webshot — page captures from inside the container
 
 `webshot URL [out.png] [WxH] [--mobile] [--settle=MS]` captures any
 web page from a **real emulated viewport** — page JS and CSS both
@@ -240,131 +213,110 @@ while you iterate on a live page), 3D viewports render and appear
 in the captures, and a virtual host resolves in-browser with
 `--host-resolver-rules="MAP somehost container"`.
 
-The spyglass looks through **the glass**: the default strains carry
-a lightweight glass ground for headless work; the workstation
-strains carry the full glass with a GUI behind it. A lite room
-takes the glass aboard while underway
+Webshot drives a headless browser: the default image variants carry
+a lightweight headless shell for capture work; the workstation
+variants carry a full browser with a GUI behind it. A lite console
+can add the headless shell at runtime
 (`M-x skewed-install` `headless-shell`).
 
-### What Else Is Aboard
+### What Else Is Included
 
-Beyond the Captain and the Protocol Officer, the room carries working
+Beyond the Emacs daemon and the MCP layer, the image carries working
 gear — every piece of it real and reachable:
 
-- **The gangway** (port 6942, answering to `webterm` from any shell
-  aboard): how a biological walks aboard through a web browser
-  when no terminal is to hand. Cyborgs beam in through the Protocol
-  Officer; people take the gangway.
+- **The web terminal** (port 6942, answering to `webterm` from any
+  shell in the container): how a person reaches the console through
+  a web browser when no terminal is to hand. Agents connect through
+  the MCP layer; people take the web terminal.
 
-- **The spyglass** (`webshot` / `webshot-clip`): page captures from
-  inside the room, through **the glass** — see The Spyglass section
-  below.
+- **Webshot** (`webshot` / `webshot-clip`): page captures from
+  inside the container — see the Webshot section above.
 
-- **Translators** (the `-aituis` strains, including `-full`): four
-  translator sets through which passengers converse with cyborgs —
-  a separate channel from the ready room's own, so a cyborg can
-  talk with you in one window while it works the crew through the
-  Ready Room's channels, set up by the Protocol Officer. See The
-  Translators below.
+- **Bundled agent CLIs** (the `-aituis` variants, including
+  `-full`): four terminal AI agents for conversing with an agent
+  directly — a separate channel from the MCP endpoints, so you can
+  talk with an agent in one window while it works the deployment's
+  services through MCP. See Bundled Agent CLIs below.
 
-- **Scrivener 'bots**: most ready rooms come with a bevvy of them —
-  tireless copyists who hold the room's open scrolls (`C-x b` walks
-  the shelf), keep the day-board fresh, take dictation from Captain
-  and visitors alike, and mind long-running work in the background
-  without wedging the room. Whenever anything aboard reads or
-  writes a scroll, a scrivener is holding it.
+- **Background processes**: the console runs its housekeeping as
+  ordinary Emacs subprocesses — the dashboard refresher, file
+  watchers, long-running builds — visible in the buffer list
+  (`C-x b`), never wedging the editor.
 
-- **`node`**: aboard for your own JavaScript work under
-  `/projects` — builds and checks run inside the room rather than
-  on your host.
+- **`node`**: included for your own JavaScript work under
+  `/projects` — builds and checks run inside the container rather
+  than on your host.
 
-- **`M-x skewed-install`**: abilities arranged aboard while
-  underway — on-demand fitting of the glass onto a lite room, or
-  the translators onto any strain, without rebuilding the image.
+- **`M-x skewed-install`**: capabilities added at runtime —
+  on-demand fitting of the headless browser onto a lite console, or
+  the agent CLIs onto any variant, without rebuilding the image.
 
-## Aboard Ship (recommended)
+## In a Basalt Deployment (recommended)
 
-Everything runs inside Docker containers — **you need not speak
-`./setup`, install any scrolls, or touch your own host Emacs.**
-Your host machine stays clean. The only intentional side effect is that
-`./basilisk up` makes `rmax` and `grmax` available in your shell.
+Everything runs inside Docker containers — **you need not run
+`./setup`, install any configuration, or touch your own host
+Emacs.** Your host machine stays clean apart from the shell
+convenience commands `./basalt up` installs for reaching the
+containerized Emacs.
 
 ### Requirements
 
  - Git
  - Docker — see [macOS-Specific Section](#macos-specific-section) if on a Mac
 
-### Quickest Start — fetch the Basilisk scrolls and raise the ship
-
-Speak these runes at any shell:
+### Quickest Start — clone Basalt and start the deployment
 
 ```bash
-git clone https://github.com/gornskew/basilisk
-cd basilisk
-./basilisk up
+git clone https://gitlab.genworks.com/genworks/basalt
+cd basalt
+./basalt up
 ```
 
-Your `~/projects/` directory will become mounted at `/projects` in the
-ship's rooms and will be created if missing.
+Your `~/projects/` directory will become mounted at `/projects` in
+the deployment's containers and will be created if missing.
 
-Once a cyborg is connected, paste
+Once an agent is connected, paste
 [`docs/PROJECT_INSTRUCTIONS.md`](docs/PROJECT_INSTRUCTIONS.md) into a
 Claude Desktop Project's custom instructions (or your `CLAUDE.md` /
-`AGENTS.md`) as standing orders for the session, and/or use
-[`mcp/opening-prompt.md`](https://github.com/gornskew/basilisk/blob/devo/mcp/opening-prompt.md)
-from the Basilisk clone as a ready-made first hail.
+`AGENTS.md`) as standing instructions for the session.
 
 ### Initial Setup (full clone)
 
-1. Copy this repo's scrolls home, anywhere you like — `~/readymax`
-   is fine:
+1. Copy this repository anywhere you like — `~/readymacs` is fine:
 
 ```bash
 
    cd
-   git clone https://github.com/gornskew/readymax
-   cd readymax
+   git clone https://gitlab.genworks.com/genworks/readymacs
+   cd readymacs
 
 ```
 
    Cloning under your own `~/projects/` instead is useful only if you
-   want to hack on Readymax internals from inside the container
+   want to hack on Readymacs internals from inside the container
    (the host `~/projects/` directory is mounted at `/projects`
-   there). For just *using* Readymax to work on other projects,
+   there). For just *using* Readymacs to work on other projects,
    the clone location doesn't matter — the running container never
    needs the clone.
 
-2. Raise the default vessel:
+2. Start the default deployment (from a Basalt clone):
 
 ```
-   ./basilisk up
-   
+   ./basalt up
+
 ```
 
 By default this pulls missing images only (no overwrites of local builds).
 To force pulling the latest images, use:
 
 ```
-   ./basilisk up --pull
+   ./basalt up --pull
 ```
 
-After the ship is raised, `rmax` and `grmax` should be available
-immediately and henceforth in any new bash shells on your host —
-these are the **only** commands you need from the host to call on
-the containerized Emacs:
-
-- `rmax` — hail the Captain in your current terminal (terminal emacsclient)
-- `grmax` — the Captain receives you in a new window (graphical emacsclient)
-
-With more than one ship on the box, name the one you mean with a
-leading @-arg: `rmax @alpha my-proj.lisp`.
-
-`./basilisk up` writes these to
-`~/.config/skewed-emacs/shell-functions.sh` and adds a single source
-line to your shell's RC file (`~/.bashrc`, `~/.zshrc`, `~/.kshrc`, or
-`~/.profile`, depending on your login shell). This is the **only
-modification** made to your host environment. Open a new terminal (or
-source that RC file) to activate them.
+After the deployment is up, the generated shell convenience commands
+for reaching the containerized Emacs are available in new shells on
+your host — see the Basalt README for their names and usage, and for
+what (single) modification is made to your shell startup files.
 
 After you are in, see the "Getting Started" section near the top of
 the default landing dashboard.
@@ -372,17 +324,15 @@ the default landing dashboard.
 ### Connecting an out-of-stack MCP client (Claude Desktop and friends)
 
 This is trivial to do with the generated
-`mcp/claude_desktop_config.json`. Please see [The Basilisk
-Repo](https://github.com/gornskew/basilisk) for details.
+`mcp/claude_desktop_config.json`. Please see [the Basalt
+repository](https://gitlab.genworks.com/genworks/basalt) for details.
 
-### The Translators (Claude Code, Gemini CLI, Codex, Grok)
+### Bundled Agent CLIs (Claude Code, Gemini CLI, Codex, Grok)
 
-The `-aituis` strains (including `-full`, which is an alias for
-`gui-aituis`) fit four translators — terminal channels through which
-a passenger converses with a cyborg, launched from any shell inside
-the container (`M-x vterm`) — while that same cyborg reaches the
-ship's crew through the Ready Room's channels, set up by the
-Protocol Officer:
+The `-aituis` image variants (including `-full`, which is an alias
+for `gui-aituis`) bundle four terminal AI agents — launched from any
+shell inside the container (`M-x vterm`) — while those same agents
+reach the deployment's services through the MCP layer:
 
 | Agent | Launcher | First login |
 |-------|----------|-------------|
@@ -391,16 +341,16 @@ Protocol Officer:
 | OpenAI Codex | `codexly` | Interactive login, or `OPENAI_API_KEY` |
 | Grok Build (xAI) | `grokly` | `grok login`, or `GROK_DEPLOYMENT_KEY` |
 
-They come up with the Protocol Officer's introductions already made
-— every crew channel on the ship wired in: `./basilisk up` merges
-the service configs and installs them in whatever form each
-translator expects, so a cyborg you converse with in a terminal
-here reaches the same crew an outside Claude Desktop would. Credentials are volume-mounted from your host and survive
-restarts and recreates.
+They come up preconfigured — every service endpoint in the
+deployment wired in: `./basalt up` merges the service configs and
+installs them in whatever form each agent CLI expects, so an agent
+you converse with in a terminal here reaches the same services an
+outside Claude Desktop would. Credentials are volume-mounted from
+your host and survive restarts and recreates.
 
-A strain without them is not a dead end — `M-x skewed-install` fits
-the translators on demand, though those fittings are ephemeral. And
-an outside MCP client works identically against any strain, `lite`
+A variant without them is not a dead end — `M-x skewed-install` fits
+the agent CLIs on demand, though those fittings are ephemeral. And
+an outside MCP client works identically against any variant, `lite`
 included.
 
 **Details** — which config lands where, why the launchers are shell
@@ -412,7 +362,7 @@ and the build-stage layout — are in
 
 ### Emacs-slanted Keyboard Tweaks for Windows
 
-Readymax uses the traditional Emacs keybindings by default, which
+Readymacs uses the traditional Emacs keybindings by default, which
 make heavy use of the Control key ("C-" in emacs parlance). For this
 reason, it can be convenient to bind a more ergonomic key such as
 CapsLock to Control, on modern keyboards. (Older keyboards had Control
@@ -430,7 +380,7 @@ described in the [instructions](windows-keybindings/README.md).
 
 ### macOS Prerequisites
 
-`basilisk` is pure POSIX sh — no special shell is required on macOS.
+`basalt` is pure POSIX sh — no special shell is required on macOS.
 The only requirement is **Docker Desktop**.
 
 #### Install Docker Desktop
@@ -442,17 +392,17 @@ if you haven't already, then confirm:
 docker info   # should print engine info without errors
 ```
 
-Once Docker is running, `./basilisk up` will work normally.
+Once Docker is running, `./basalt up` will work normally.
 
 ---
 
-## The Space Suit (Local Installation)
+## Direct Host Installation
 
-This section is for suiting up: installing the Readymax scrolls
-**directly on your host machine**, without Docker — survival gear
-for a Captain with no room around him at all. It is independent of
-the other postings — do not speak `./setup` as part of a shipboard
-or lifepod setup; it is not needed and not intended for those.
+This section is for installing the Readymacs configuration
+**directly on your host machine**, without Docker. It is independent
+of the other modes — do not run `./setup` as part of a deployment or
+standalone-container setup; it is not needed and not intended for
+those.
 
 1. Make a `~/projects/` directory if you don't already have one:
 
@@ -461,32 +411,32 @@ or lifepod setup; it is not needed and not intended for those.
     cd
     mkdir -p projects/
     cd projects/
-    
+
 ```
 
 2. Clone this repo into `~/projects/`:
 
 ```bash
 
-   git clone https://github.com/gornskew/readymax
-   cd readymax
+   git clone https://gitlab.genworks.com/genworks/readymacs
+   cd readymacs
 
 ```
 
-3. Speak the setup incantation:
+3. Run the setup script:
    ```bash
-   
-   cd ~/projects/readymax
+
+   cd ~/projects/readymacs
    ./setup
-   
+
    ```
-   
+
    The setup script will create symbolic links of the salient
    "dot-files" (hidden files starting with `.` pointing to the
    corresponding files in the cloned repo, for example:
-   
-    `~/.emacs.d -> ~/readymax/dot-files/emacs.d`
-   
+
+    `~/.emacs.d -> ~/readymacs/dot-files/emacs.d`
+
    If you already have any of these dot files existing (as links or
    actual files/directories), the existing files will be backed up
    with names appended with `-pre-skewed-emacs`.
@@ -510,33 +460,33 @@ tilde (~) in the dot-files directory.
 ```bash
    # Preview changes without modifying anything
    ./setup --dry-run
-   
+
    # Install configuration files with regular names
    ./setup
-   
+
    # Install configuration files with "-shadow" suffix
    # (useful for testing or for maintaining multiple configurations)
    ./setup --shadow-suffix=shadow
-   
+
    # Install with a custom suffix
    ./setup --shadow-suffix=work
-   
+
    # Preview shadow installation without making changes
    ./setup --dry-run --shadow-suffix=shadow
-   
+
    # Preview custom suffix installation without making changes
    ./setup --dry-run --shadow-suffix=test
-   
+
    # Remove all symlinks with the "-test" suffix
    ./setup --scrub-shadow-suffix=test
-   
+
    # Preview removal of all symlinks with the "-shadow" suffix without making changes
    ./setup --dry-run --scrub-shadow-suffix=shadow
-   
+
    # Remove all symlinks with the "-test" suffix and create new ones with "-work" suffix
    ./setup --scrub-shadow-suffix=test --shadow-suffix=work
-   
-   
+
+
 ```
 
 
@@ -545,13 +495,13 @@ tilde (~) in the dot-files directory.
                `~/.bash_profile`. It is designed to back up this data,
                but it would still be wise to back up your existing dot
                files before running the `./setup` script.
-	       
 
 
 
-## Terminal Icons Setup 
 
-Readymax includes a flexible icon system for the dashboard and
+## Terminal Icons Setup
+
+Readymacs includes a flexible icon system for the dashboard and
 org-mode agenda. By default we use colorful Unicode icons. If these do
 not work in your terminal, or you'd like a more muted experience, we
 recommend installing a **Nerd Font** in your terminal.
@@ -578,7 +528,7 @@ icons rather than loud colorful gaudy ones.
    - **GNOME Terminal**: Preferences → Profile → Custom font
    - **Alacritty**: Edit `font.normal.family` in config
 
-4. **Enable nerd icons in Readymax** by adding to your config or running:
+4. **Enable nerd icons in Readymacs** by adding to your config or running:
    ```elisp
    (setq skewed-icons-style 'nerd)
    ```
@@ -601,14 +551,10 @@ icons rather than loud colorful gaudy ones.
 - **Icons look plain**: Install a Nerd Font and set `skewed-icons-style` to `'nerd`
 
 
-
-
-
-
 ## Configuration Structure
 
- - `dot-files/` - the scroll chest: everything that ends up linked
-   into your home directory when you speak `./setup`
+ - `dot-files/` - everything that ends up linked into your home
+   directory when you run `./setup`
   - `emacs.d/` - Emacs configuration, to be linked to ~/.emacs.d/
     - `init.el` - Main Emacs configuration entry point
     - `etc/` - Modular configuration files
@@ -619,16 +565,13 @@ icons rather than loud colorful gaudy ones.
 ## Customization
 
 For personal customizations that shouldn't be committed to this
-repository, keep a scroll of your own — `~/.emacs-local` — read
-last at every waking of the room.
+repository, keep a file of your own — `~/.emacs-local` — read last
+at every Emacs startup.
 
 ## License
 
-AGPL-3.0-or-later, © 2026 Gornskew Enterprises — see [LICENSE](LICENSE).
+AGPL-3.0-or-later, © 2026 Genworks International; portions © 2026
+Gornskew Enterprises — see [LICENSE](LICENSE).
 The vendored SLIME under `dot-files/emacs.d/sideloaded/slime-v2.28/` is
 third-party and keeps its own terms; see [its
 LOCAL-CHANGES.md](dot-files/emacs.d/sideloaded/slime-v2.28/LOCAL-CHANGES.md).
-
-## MCP Server Registries
-
-- [MCPHub](https://mcphub.com/mcp-servers/gornskew/readymax)

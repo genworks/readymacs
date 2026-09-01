@@ -1,4 +1,5 @@
-# Copyright © 2026 Gornskew Enterprises
+# Copyright © 2026 Genworks International
+# Portions Copyright © 2026 Gornskew Enterprises
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -42,8 +43,15 @@ stages:
 
 workflow:
   rules:
-    - if: $CI_COMMIT_BRANCH == "devo" || $CI_COMMIT_BRANCH == "master"
-    - if: $CI_PIPELINE_SOURCE == "web"
+    # FORK GUARD: this pipeline still targets the upstream
+    # gornskew/readymax image coordinates.  Disabled in the Readymacs
+    # fork until docker/build and the registry variables are
+    # retargeted to Genworks coordinates -- running it as-is would
+    # push gornskew/* tags from this fork's tree.  Restore the rules
+    # below when retargeting lands.
+    - when: never
+    # - if: $CI_COMMIT_BRANCH == "devo" || $CI_COMMIT_BRANCH == "master"
+    # - if: $CI_PIPELINE_SOURCE == "web"
 
 default:
   image: docker:29.6.2

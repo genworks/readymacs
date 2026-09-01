@@ -55,7 +55,7 @@
                             dashboard-item-generators)))
 
 (setq dashboard-center-content t)
-(setq dashboard-footer-messages '("Brought to you by 𝙶𝚘𝚛𝚗𝚜𝚔𝚎𝚠 𝙴𝚗𝚝𝚎𝚛𝚙𝚛𝚒𝚜𝚎𝚜"))
+(setq dashboard-footer-messages '("Brought to you by 𝙶𝚎𝚗𝚠𝚘𝚛𝚔𝚜 𝙸𝚗𝚝𝚎𝚛𝚗𝚊𝚝𝚒𝚘𝚗𝚊𝚕"))
 
 (setq initial-buffer-choice
       (lambda ()
