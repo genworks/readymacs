@@ -846,6 +846,18 @@ $$\\   $$ |$$ |\\$$\\  $$ |      $$$  / \\$$$ |$$ |      $$ |  $$ |
          | $$ \\$$$| $$| $$  | $$|  $$ \\$$\\
          | $$  \\$ | $$| $$  | $$| $$  | $$
           \\$$      \\$$ \\$$   \\$$ \\$$   \\$$
+"
+     :macs
+     "
+ __       __   ______    ______    ______  
+|  \\     /  \\ /      \\  /      \\  /      \\ 
+| $$\\   /  $$|  $$$$$$\\|  $$$$$$\\|  $$$$$$\\
+| $$$\\ /  $$$| $$__| $$| $$   \\$$| $$___\\$$
+| $$$$\\  $$$$| $$    $$| $$       \\$$    \\ 
+| $$\\$$ $$ $$| $$$$$$$$| $$   __  _\\$$$$$$\\
+| $$ \\$$$| $$| $$  | $$| $$__/  \\|  \\__| $$
+| $$  \\$ | $$| $$  | $$ \\$$    $$ \\$$    $$
+ \\$$      \\$$ \\$$   \\$$  \\$$$$$$   \\$$$$$$
 ")
 
     :big-money-sw
@@ -906,7 +918,7 @@ non-container host from dressing a desktop Emacs in ship's colors."
 
 The product is READYMAX (the 2026-08-24 renaming; SKEWED EMACS
 lettering below is kept as heritage).  Standalone, the marquee reads
-READY MAX.  Aboard a Basilisk ship (`skewed-dashboard-aboard-p') the
+READY MACS.  Aboard a deployment (`skewed-dashboard-aboard-p') the
 same room hangs out its shipboard shingle instead: READY ROOM, with
 the Captain's sign under it.  The top word is READY either way -- Big
 Money-sw over Big Money-se -- so the two guises read as one artifact
@@ -931,7 +943,7 @@ wearing two names."
                           :ready))
              (bottom-banner (plist-get
                              (plist-get skewed-dashboard-banners :big-money-se)
-                             (if aboard? :room :max))))
+                             (if aboard? :room :macs))))
         (setq dashboard-banner-logo-title
               (if aboard? "𝒯𝒽𝑒 𝒞𝒶𝓅𝓉𝒶𝒾𝓃 𝒾𝓈 𝒾𝓃."
                 "ℛ𝑒𝒶𝒹𝓎 𝓌𝒽𝑒𝓃 𝓎𝑜𝓊 𝒶𝓇𝑒."))
