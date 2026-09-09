@@ -39,12 +39,10 @@ Translated to the Genworks register so far: `README.md`, this file,
 
 Still tracking upstream untranslated, on the catch-up list:
 
-- `docker/` (Dockerfile, build/run scripts, BUILD.md, README.md) —
-  still builds and documents the upstream `gornskew/readymax` image
-  coordinates; Genworks image coordinates and CI are not yet decided.
-- `.gitlab-ci.yml` — pipeline disabled by a fork guard
-  (`when: never`) because `docker/build` still targets the upstream
-  image coordinates; retarget, then restore the commented rules.
+- `docker/build` and `docker/run` target `genworks/readymacs`
+  (`IMAGE_REPO` overrides) and `.gitlab-ci.yml` runs on devo/master
+  as of 2026-09-09; `BUILD.md` and `docker/README.md` still document
+  the upstream `gornskew/readymax` coordinates.
 - `docs/` and elisp docstrings/comments — upstream voice in places.
 - The dashboard marquee art (READY MAX / READY ROOM guises in
   `dashboard-config.el`) — a Readymacs marquee needs its own art

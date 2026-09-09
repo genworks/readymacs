@@ -116,7 +116,7 @@ if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
 fi
 
 echo "Starting Readymax container..."
-echo "  Image: gornskew/readymax:${IMAGE_TAG}"
+echo "  Image: ${IMAGE_REPO:-genworks/readymacs}:${IMAGE_TAG}"
 echo "  Container name: ${CONTAINER_NAME}"
 echo "  HTTP API: localhost:${HTTP_HOST_PORT} -> container:${HTTP_PORT}"
 echo "  HTTP Service: ${START_HTTP}"
@@ -186,7 +186,7 @@ docker run ${RUN_OPTIONS} \
     ${MOUNT_OPTIONS} \
     -e DISPLAY=$DISPLAY \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
-    gornskew/readymax:${IMAGE_TAG}
+    ${IMAGE_REPO:-genworks/readymacs}:${IMAGE_TAG}
 
 if [ "$RUN_MODE" = "detached" ]; then
     echo "Container started successfully."

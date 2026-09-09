@@ -152,8 +152,10 @@ fi
 
 PUSH_IMAGE="${CLI_SET_PUSH:-false}"
 
-IMAGE_NAME="gornskew/readymax"
-FINAL_IMAGE="gornskew/readymax"
+# Image coordinates: IMAGE_REPO in the environment (a CI variable on
+# gitlab.genworks.com/genworks/readymacs) overrides the Genworks default.
+IMAGE_NAME="${IMAGE_REPO:-genworks/readymacs}"
+FINAL_IMAGE="${IMAGE_NAME}"
 
 # -----------------------------
 # Stage mapping

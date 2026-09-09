@@ -154,9 +154,9 @@ ones.
     configuration surface worth understanding, not furniture.
 
 - **Image builds**: the container image is built from
-    `docker/Dockerfile` by `docker/build`. (Until Genworks image
-    coordinates are published, the upstream `gornskew/readymax`
-    images on Docker Hub are drop-in compatible.)
+    `docker/Dockerfile` by `docker/build`, published to
+    `genworks/readymacs` on Docker Hub (the upstream
+    `gornskew/readymax` images remain drop-in compatible).
 
 ### The MCP Configuration Surface
 

@@ -7,8 +7,8 @@
 # License, or (at your option) any later version.  Distributed WITHOUT
 # ANY WARRANTY; see <https://www.gnu.org/licenses/agpl-3.0.html>.
 
-# GitLab CI for readymax container images (gornskew/readymax on
-# Docker Hub).
+# GitLab CI for readymacs container images (genworks/readymacs on
+# Docker Hub by default; IMAGE_REPO overrides the coordinates).
 #
 # Native per-arch builds -- no QEMU emulation (see the exec-format-error
 # saga on narad, docker/CI.md).  Each architecture builds on its own
@@ -31,8 +31,9 @@
 #            2026-08-08, job 16201 build phase).
 #
 # Required CI/CD variables (Settings -> CI/CD -> Variables):
-#   DOCKERHUB_USER  -- Docker Hub account with push rights to gornskew/*
+#   DOCKERHUB_USER  -- Docker Hub account with push rights to the image namespace
 #   DOCKERHUB_TOKEN -- read/write access token (masked)
+#   IMAGE_REPO      -- optional; the image coordinates, default genworks/readymacs
 #
 # docker/build honors CI_COMMIT_REF_NAME for branch detection, so tags
 # come out as <branch>-<target>[-<arch>] automatically.
@@ -43,15 +44,11 @@ stages:
 
 workflow:
   rules:
-    # FORK GUARD: this pipeline still targets the upstream
-    # gornskew/readymax image coordinates.  Disabled in the Readymacs
-    # fork until docker/build and the registry variables are
-    # retargeted to Genworks coordinates -- running it as-is would
-    # push gornskew/* tags from this fork's tree.  Restore the rules
-    # below when retargeting lands.
-    - when: never
-    # - if: $CI_COMMIT_BRANCH == "devo" || $CI_COMMIT_BRANCH == "master"
-    # - if: $CI_PIPELINE_SOURCE == "web"
+    # The fork guard (when: never) came off 2026-09-09: docker/build and
+    # docker/run now target genworks/readymacs (IMAGE_REPO to override),
+    # so the pipeline pushes Genworks coordinates, never gornskew/*.
+    - if: $CI_COMMIT_BRANCH == "devo" || $CI_COMMIT_BRANCH == "master"
+    - if: $CI_PIPELINE_SOURCE == "web"
 
 default:
   image: docker:29.6.2
