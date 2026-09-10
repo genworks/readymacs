@@ -67,3 +67,8 @@ Two rules worth restating because agents trip on them:
 - Never `find-file-noselect` project source files from batch evals
   (mode hooks can prompt and wedge the daemon); use
   `(with-temp-buffer (insert-file-contents ...))` for reads.
+- Never curl the console's OWN lisply port from inside a
+  `lisp_eval` (even bounded): curl waits on the httpd, and the
+  httpd runs on the event loop that is blocked waiting for curl.
+  Probe the console's endpoints with `lisply-shell-async`, from
+  another service, or from the host.

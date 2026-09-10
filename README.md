@@ -181,7 +181,7 @@ services alike, each in its own Lisp.
 | `ping_lisp` | is anyone home |
 | `get_docs` / `get_docs_list` | built-in documentation, served on demand |
 | `http_request` | reach the service's HTTP endpoints through one gate |
-| `skewed_search` | search the indexed document corpus (Readymacs consoles) |
+| `lisply_search` | search the indexed document corpus (Readymacs consoles; `skewed_search` until 2026-09-09, still answered as an alias) |
 
 **Where it gets its configuration.** In a deployment, `./basalt up`
 generates the client registries (`mcp/claude_desktop_config.json` for
