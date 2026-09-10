@@ -15,7 +15,7 @@ effectively grants the connected LLM **full access to your machine with your
 user privileges** — closer to handing an autonomous agent the keys to your
 computer than to a scoped, read-only tool.
 
-The containerized path (`./basilisk up`) exists precisely to sandbox this:
+The containerized path (`./basalt up`) exists precisely to sandbox this:
 the agent gets a throwaway Emacs in a container with only the directories you
 chose to mount. **The host path does not sandbox anything.** Enable it only on
 a machine and account where that trade-off is acceptable, keep the listener on
@@ -63,14 +63,14 @@ To disable later, delete those two lines from `~/.emacs-local` (or set
 ## Getting the middleware (lisply-mcp)
 
 The steps above start the Emacs-side *server*. The client side — the
-[lisply-mcp](https://github.com/gornskew/lisply-mcp) Node.js middleware that an
+[lisply-mcp](https://github.com/genworks/lisply-mcp) Node.js middleware that an
 MCP client actually launches — lives in a **separate repository**. The
 container images bake it in; on the host you need your own copy, checked out to
 the **branch that matches your skewed-emacs checkout** (the container build does
 exactly this via `git clone --branch "${GIT_BRANCH}"`). Mismatched branches
 can mean mismatched protocol/flags, so keep them aligned.
 
-`./setup --with-mcp` does this for you: it clones `gornskew/lisply-mcp` next to
+`./setup --with-mcp` does this for you: it clones `genworks/lisply-mcp` next to
 your skewed-emacs repo, checks out the branch matching your current skewed-emacs
 branch (falling back to `master` if that branch does not exist upstream), and
 runs `npm ci --omit=dev`.
@@ -81,8 +81,8 @@ To do it by hand:
 # from the directory that contains your skewed-emacs checkout
 branch="$(git -C skewed-emacs rev-parse --abbrev-ref HEAD)"   # e.g. devo
 git clone --depth 1 --branch "$branch" \
-  https://github.com/gornskew/lisply-mcp.git \
-  || git clone --depth 1 --branch master https://github.com/gornskew/lisply-mcp.git
+  https://github.com/genworks/lisply-mcp.git \
+  || git clone --depth 1 --branch master https://github.com/genworks/lisply-mcp.git
 cd lisply-mcp/scripts && npm ci --omit=dev
 ```
 
@@ -91,7 +91,7 @@ and the `commander` dependency that `npm ci` installs.
 
 ## Connecting an MCP client
 
-Point the [lisply-mcp](https://github.com/gornskew/lisply-mcp) middleware at
+Point the [lisply-mcp](https://github.com/genworks/lisply-mcp) middleware at
 the running host server — give it the loopback host and the port. The `devo`
 wrapper connects to the backend directly:
 

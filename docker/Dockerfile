@@ -164,7 +164,7 @@ USER emacs-user
 
 RUN set -euxo pipefail; \
     if [ ! -d "lisply-mcp" ]; then \
-      git clone --depth 1 --branch "${GIT_BRANCH}" https://github.com/gornskew/lisply-mcp.git || \
+      git clone --depth 1 --branch "${GIT_BRANCH}" https://github.com/genworks/lisply-mcp.git || \
       { echo "Error: Failed to clone lisply-mcp on branch ${GIT_BRANCH}. Does the branch exist in the remote repo?"; exit 1; }; \
     fi; \
     cd lisply-mcp/scripts; \
@@ -248,7 +248,7 @@ RUN --mount=type=secret,id=corpus_netrc,target=/home/emacs-user/.netrc,uid=1000,
    set -euxo pipefail; \
    if [ "${SKEWED_BUILD_SKEWED_INDEX}" = "true" ]; then \
      mkdir -p /projects; \
-     ln -sfn /home/emacs-user/skewed-emacs /projects/readymax; \
+     ln -sfn /home/emacs-user/skewed-emacs /projects/readymacs; \
      cd /home/emacs-user/skewed-emacs; \
      GIT_TERMINAL_PROMPT=0 LISPLY_INDEX_STRICT="${LISPLY_INDEX_STRICT}" emacs --batch \
        --eval "(add-to-list 'load-path \"/home/emacs-user/skewed-emacs/dot-files/emacs.d/sideloaded/lisply-backend/source\")" \
@@ -272,22 +272,23 @@ RUN set -euxo pipefail; \
 # ============================================================
 FROM debian:stable-slim AS common-runtime-base
 
-# What this species can DO, readable off the image manifest -- the SSoT
-# for image capabilities.  The basilisk :captain posting requires
-# "readymax"; the crew muster verifies the match at up-time, warning
-# and proceeding, which is exactly the canon's posture that a Readymax
-# Captain is recommended, not a class invariant.  The elder
-# "skewed-emacs" token rides alongside through the rename transition
-# so older articles fleetwide stay warning-free; drop it once every
-# hull's articles require "readymax".
+# What this image can DO, readable off the image manifest -- the single
+# source of truth for image capabilities.  Deployment tooling states
+# what a role requires (the Basalt console role requires "readymax",
+# the capability token this image family has always declared) and
+# verifies the match at start-up, warning and proceeding: a Readymacs
+# console is recommended, not required.  The older "skewed-emacs"
+# token rides alongside through the rename transition so older
+# deployment configurations stay warning-free; drop it once every
+# configuration requires "readymax".
 #
-# ONE LABEL DOES NOT COVER ALL STRAINS: the strains genuinely differ
-# in what they can do (lite has no glass; only gui strains have a
-# workstation; only -aituis strains bake the TUIs), so this is only
-# the FLOOR -- console + lisply MCP -- and each strain's final stage
-# overrides it with that strain's true list.  What skewed-install adds
-# later (e.g. headless-shell onto lite) is ability arranged aboard,
-# not innate, and deliberately stays out of the manifest.
+# ONE LABEL DOES NOT COVER ALL VARIANTS: the variants genuinely differ
+# in what they can do (lite has no browser; only gui variants have a
+# workstation; only -aituis variants bake the TUIs), so this is only
+# the FLOOR -- console + lisply MCP -- and each variant's final stage
+# overrides it with that variant's true list.  What skewed-install adds
+# later (e.g. headless-shell onto lite) is provided at runtime, not
+# innate, and deliberately stays out of the manifest.
 LABEL basilisk.capabilities="readymax,skewed-emacs"
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -384,8 +385,8 @@ RUN set -euxo pipefail; \
 
 USER emacs-user
 
-# NO config regeneration here.  Generating stack configs is yard work and
-# belongs to the Basilisk repo; this image is one crew member's quarters.
+# NO config regeneration here.  Generating deployment configs belongs to
+# the Basalt repo; this image is one service among those it deploys.
 # Removed 2026-08-15 with the rip -- there were TWO of these, one per image
 # variant stage, and fixing only the third call site in the search-index
 # step left both of these to fail the next build.
@@ -488,8 +489,8 @@ RUN fc-cache -fv
 
 USER emacs-user
 
-# NO config regeneration here.  Generating stack configs is yard work and
-# belongs to the Basilisk repo; this image is one crew member's quarters.
+# NO config regeneration here.  Generating deployment configs belongs to
+# the Basalt repo; this image is one service among those it deploys.
 # Removed 2026-08-15 with the rip -- there were TWO of these, one per image
 # variant stage, and fixing only the third call site in the search-index
 # step left both of these to fail the next build.

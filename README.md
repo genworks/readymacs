@@ -22,8 +22,10 @@ Studio, or anything else that speaks
 [MCP](https://modelcontextprotocol.org) — can work alongside you in
 the same running Emacs.
 
-Readymacs is the Genworks-maintained fork of
-[Readymax](https://github.com/gornskew/readymax).
+Readymacs and [Basalt](https://gitlab.genworks.com/genworks/basalt)
+are the recommended, supported development environments for the
+Gendl and GDL engines; Readymacs is the console a Basalt deployment
+puts in front of them, for people and for agents alike.
 
 ![Readymacs Logo](img/skewed-colorful.png)
 
@@ -155,8 +157,7 @@ ones.
 
 - **Image builds**: the container image is built from
     `docker/Dockerfile` by `docker/build`, published to
-    `genworks/readymacs` on Docker Hub (the upstream
-    `gornskew/readymax` images remain drop-in compatible).
+    `genworks/readymacs` on Docker Hub.
 
 ### The MCP Configuration Surface
 
@@ -586,7 +587,8 @@ at every Emacs startup.
 ## License
 
 AGPL-3.0-or-later, © 2026 Genworks International; portions © 2026
-Gornskew Enterprises — see [LICENSE](LICENSE).
+Gornskew Enterprises — see [LICENSE](LICENSE). Provenance and the
+upstream relationship are recorded in [UPSTREAM.md](UPSTREAM.md).
 The vendored SLIME under `dot-files/emacs.d/sideloaded/slime-v2.28/` is
 third-party and keeps its own terms; see [its
 LOCAL-CHANGES.md](dot-files/emacs.d/sideloaded/slime-v2.28/LOCAL-CHANGES.md).

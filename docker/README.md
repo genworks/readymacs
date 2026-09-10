@@ -59,7 +59,7 @@ oversight.
 
 ## How the MCP wiring gets there
 
-None of this is configured by hand. `./basilisk up` runs
+None of this is configured by hand. `./basalt up` runs
 `merge-mcp-configs.el`, which merges the base and overlay MCP configs
 and installs them per agent, in the format each one expects:
 
@@ -73,19 +73,19 @@ and installs them per agent, in the format each one expects:
 The Codex and Grok blocks are delimited by `BEGIN SKEWED-EMACS MCP`
 markers, so the merge can be re-run without disturbing anything else in
 those files. `grokly` checks for that marker and warns you to run
-`./basilisk up` if it is missing — a much better failure than an agent
+`./basalt up` if it is missing — a much better failure than an agent
 that starts with no tools and does not say so.
 
 The generated entries point at **compose network hostnames**
-(`captain:7080`, `jr-eng-human:9080`, …) through
+(`console:7080`, `front-line:9080`, …) through
 `node …/mcp-wrapper.js`. That is why an agent in a terminal here
 reaches exactly the same services an external Claude Desktop would:
 same roster, same wrapper, different transport.
 
 Because the config is generated from the whole roster, it necessarily
-comes from **Basilisk** rather than from this repo — a Captain's image
-cannot know what else is aboard. This repo builds the agents; Basilisk
-tells them what to talk to.
+comes from **Basalt** rather than from this repo — the console's
+image cannot know what else is deployed beside it. This repo builds
+the agents; Basalt tells them what to talk to.
 
 ## Credentials
 
@@ -106,7 +106,7 @@ directory would shadow it with an empty host directory and break the
 agent. If you are adding a fifth agent, mount the credential file, not
 its directory.
 
-`./basilisk up` creates these as empty placeholder files on the host if
+`./basalt up` creates these as empty placeholder files on the host if
 they do not exist, so the mounts always resolve.
 
 ## Build notes

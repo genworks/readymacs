@@ -15,7 +15,7 @@ Set Height 600
 Set Theme "Monokai Vivid"
 Set TypingSpeed 40ms
 
-Type "./basilisk up"
+Type "./basalt up"
 Enter
 Sleep 8s
 Type "eskew"

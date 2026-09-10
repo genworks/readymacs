@@ -1,4 +1,4 @@
-# Skewed Emacs Docker Build System
+# Readymacs Docker Build System
 
 ## Branch-Prefixed Additive Naming Scheme
 
@@ -16,11 +16,11 @@ Where:
 
 **devo branch:**
 ```
-gornskew/skewed-emacs:devo-lite              # Base only
-gornskew/skewed-emacs:devo-default           # Base + snapshotting (THE default)
-gornskew/skewed-emacs:devo-aituis            # Default + AI TUIs
-gornskew/skewed-emacs:devo-gui               # Base + GUI workstation
-gornskew/skewed-emacs:devo-gui-aituis        # Everything
+genworks/readymacs:devo-lite              # Base only
+genworks/readymacs:devo-default           # Base + snapshotting (THE default)
+genworks/readymacs:devo-aituis            # Default + AI TUIs
+genworks/readymacs:devo-gui               # Base + GUI workstation
+genworks/readymacs:devo-gui-aituis        # Everything
 ```
 
 **master branch:** same pattern with the `master-` prefix.
@@ -32,7 +32,7 @@ of `docker/Dockerfile`).  Measurements behind the layering:
 `docs/SLIMMING_MEASUREMENTS.md`.
 
 ### Base (included in all variants)
-- **Emacs configuration**: Full skewed-emacs config
+- **Emacs configuration**: Full Readymacs configuration
 - **lisply-mcp**: MCP server for Lisp evaluation
 - **vterm**: Terminal emulator in Emacs
 - **ttyd**: Web-based terminal
@@ -141,7 +141,7 @@ docker/build --all --no-push
 
 ```bash
 # Development workflow: Build everything for current branch
-cd /projects/skewed-emacs
+cd /projects/readymacs
 docker/build --all
 
 # CI/CD: Build and push master branch
@@ -265,12 +265,12 @@ Docker Hub limits unauthenticated pulls to 10/hour per IPv4 address (and the
 limit is shared by everything behind that IP). An authenticated free Personal
 account gets 100 pulls/hour, counted per account instead of per IP.
 
-Every host that pulls `gornskew/*` images (dev machines, production servers,
+Every host that pulls `genworks/*` images (dev machines, production servers,
 CI runners) should therefore be logged in:
 
 ```bash
 # One-time per host, per user that runs docker/compose:
-docker login -u gornskew   # paste a read-only access token, not the password
+docker login -u genworks   # paste a read-only access token, not the password
 ```
 
 Notes:
@@ -285,7 +285,7 @@ Notes:
   pull/up`, classic `docker build` base-image pulls, and `docker buildx`
   multi-arch builds (buildx forwards credentials from the client's
   `~/.docker/config.json` to the builder).
-- `basilisk` exports `DOCKER_CONFIG="$HOME/.docker"`, so compose finds
+- `basalt` exports `DOCKER_CONFIG="$HOME/.docker"`, so compose finds
   the credentials regardless of invocation context.
 - GitLab CI: for shell executors, `docker login` once as the runner's user;
   for docker executors, set the `DOCKER_AUTH_CONFIG` CI/CD variable instead.

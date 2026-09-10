@@ -18,7 +18,7 @@
 #
 # Build jobs pass --skip-manifests so the manifest merge happens exactly
 # once per pipeline (in stitch-manifests).  Docker Hub rate-limits are
-# real and shared (200/hr for the gornskew account, 100/hr anonymous per
+# real and shared (200/hr for the authenticated account, 100/hr anonymous per
 # source IP -- and the whole site NATs through one IP): the 2026-08-08
 # pilot died at 429 Too Many Requests because every build job ran the
 # full 8-tag manifest merge and then the stitch job ran it again.

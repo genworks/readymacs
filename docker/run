@@ -7,8 +7,8 @@
 # License, or (at your option) any later version.  Distributed WITHOUT
 # ANY WARRANTY; see <https://www.gnu.org/licenses/agpl-3.0.html>.
 
-# Consolidated run script for the Readymax Docker container (the
-# lifepod posting: freestanding, no ship around it)
+# Consolidated run script for the Readymacs Docker container, run
+# standalone: no deployment around it.
 # Compatible with lisply-mcp port handling
 
 # Default values - avoid conflicts with host services
@@ -27,7 +27,7 @@ if [ -z "${IMAGE_TAG}" ]; then
         IMAGE_TAG=${CI_COMMIT_REF_NAME//\/\/\//--}
     fi
 fi
-CONTAINER_NAME="${CONTAINER_NAME:-readymax}"
+CONTAINER_NAME="${CONTAINER_NAME:-readymacs}"
 HTTP_PORT="${HTTP_PORT:-7080}"              # Internal container port
 # Compute default HTTP_HOST_PORT as HTTP_PORT + 1 if not set
 if [ -z "${HTTP_HOST_PORT}" ]; then
@@ -76,7 +76,7 @@ while [[ $# -gt 0 ]]; do
       echo "Usage: $0 [OPTIONS]"
       echo "Options:"
       echo "  -t, --tag TAG               Image tag to run (default: dev)"
-      echo "  -n, --name NAME             Container name (default: readymax)"
+      echo "  -n, --name NAME             Container name (default: readymacs)"
       echo "  --http-port PORT            Internal HTTP port (default: 7080)"
       echo "  --http-host-port PORT       Host HTTP port (default: 7080)"
       echo "  -p, --port PORT             Alias for --http-host-port"
@@ -115,7 +115,7 @@ if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
     docker rm ${CONTAINER_NAME} 2>/dev/null || true
 fi
 
-echo "Starting Readymax container..."
+echo "Starting Readymacs container..."
 echo "  Image: ${IMAGE_REPO:-genworks/readymacs}:${IMAGE_TAG}"
 echo "  Container name: ${CONTAINER_NAME}"
 echo "  HTTP API: localhost:${HTTP_HOST_PORT} -> container:${HTTP_PORT}"

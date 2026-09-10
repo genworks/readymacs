@@ -1495,7 +1495,7 @@ working; new prompts and docs say `lisply_search`.
 Sources are defined in `lisply-search-config.sexp` (beside this file)
 under `:lisply-search-config` → `:sources`; the file is the single source
 of truth, so consult it rather than any list copied into docs. As of
-2026-09-09 the sources are `gendl` (the open-source engine), `readymax`
+2026-09-09 the sources are `gendl` (the open-source engine), `readymacs`
 (this console's own configuration and lisply backend) and
 `genworks-learn` (the Genworks training material, a directory of the
 private `genworks/apps` repository -- fetched at build time only when the
@@ -1579,7 +1579,7 @@ lisply_search(query="define-object first example", sources=["genworks-learn"], k
 {
   "query": "define-object computed-slots",
   "search_mode": "lexical",
-  "sources": ["gendl", "readymax", "genworks-learn"],
+  "sources": ["gendl", "readymacs", "genworks-learn"],
   "hits": [
     {
       "id": "hit-001",

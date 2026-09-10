@@ -404,13 +404,11 @@ fi
 
 
 
-# Skewed Emacs shell helpers
-## Basilisk-family shell helpers: the canon calls (rmax/grmax in
-## shell-functions.sh) and any register fork's renamed calls
-## (e.g. rmacs/grmacs in shell-functions-rmacs.sh), each written
-## per-host by `basilisk install-shell-functions` or a fork's
-## equivalent.  Sourced by glob so this file never needs a
-## host-specific line appended to it.
+# Shell helpers written per host by the deployment tooling
+## (`basalt install-shell-functions` writes rmacs/grmacs into
+## shell-functions-rmacs.sh; other deployment stacks write their own
+## calls into sibling files).  Sourced by glob so this file never
+## needs a host-specific line appended to it.
 for _skewed_sf in "$HOME"/.config/skewed-emacs/shell-functions*.sh; do
     [ -r "$_skewed_sf" ] && . "$_skewed_sf"
 done

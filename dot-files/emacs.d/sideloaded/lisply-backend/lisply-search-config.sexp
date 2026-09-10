@@ -43,11 +43,11 @@
                         :repo "gendl"
                         :repo-url "https://gitlab.common-lisp.net/gendl/gendl"
                         :repo-root "gendl")))
-            (:name "readymax"
-             :entries ((:root "readymax"
-                        :repo "readymax"
-                        :repo-url "https://github.com/gornskew/readymax"
-                        :repo-root "readymax")))
+            (:name "readymacs"
+             :entries ((:root "readymacs"
+                        :repo "readymacs"
+                        :repo-url "https://github.com/genworks/readymacs"
+                        :repo-root "readymacs")))
             ;; The Genworks training material -- the successor of the
             ;; retired github.com/gornskew/training corpus, whose
             ;; disappearance (2026-08-20) left every console image without

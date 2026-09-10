@@ -9,7 +9,7 @@ genuine — captured live, trimmed only for brevity.
 The stack was started with nothing but:
 
 ```bash
-./basilisk up
+./basalt up
 ```
 
 ---
@@ -174,8 +174,8 @@ list.
 - Two different Lisp environments (Emacs elisp and Gendl Common Lisp)
   were driven through the same uniform tool protocol
   (`lisp_eval` / `http_request` / `ping_lisp`), served by
-  [lisply-mcp](https://github.com/gornskew/lisply-mcp).
-- Everything ran inside the container sandbox that `./basilisk up`
+  [lisply-mcp](https://github.com/genworks/lisply-mcp).
+- Everything ran inside the container sandbox that `./basalt up`
   started; the host machine was never touched.
 
 Try it yourself: any MCP client works. See the README Quick Start for
