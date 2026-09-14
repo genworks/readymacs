@@ -15,7 +15,12 @@ a standalone container (`docker/run`), or directly on a host
 
 Upstream changes are merged when chosen; deliberate divergence is
 limited to naming, attribution, and documentation voice.  Code fixes
-that apply upstream belong upstream first.
+that apply upstream belong upstream first.  **Every upstream Readymax
+edit lands here as its analog in the same session** (the user,
+2026-09-14): code files byte-identical, docs and comments in this
+repo's register, one commit on each repo with the same story.  A
+session that leaves the two apart leaves the next one to find out
+which is right.
 
 ## Register and naming rules for this fork
 
