@@ -223,17 +223,28 @@ can add the headless shell at runtime
 ### Bundled Gendl Search Index
 
 Every Readymacs image comes pre-packaged with a `lisply_search` index,
-built at image build time: a lexical index over the
-[Gendl](https://gitlab.common-lisp.net/gendl/gendl) engine's source
-and documentation, Readymacs's own elisp and configuration, the
-Genworks training material ([genworks.dev](https://genworks.dev)) and
-the live Genworks demos. An agent asks `lisply_search` before it
+built at image build time: a lexical index over Readymacs's own elisp
+and configuration and, so a standalone console works on its own, over
+the [Gendl](https://gitlab.common-lisp.net/gendl/gendl) engine's
+source and documentation. An agent asks `lisply_search` before it
 writes GDL and gets back whole `define-object` forms and documentation
 sections, each with its file and line range — no `/projects` mount
-required. When the corpora on your own mount move, rebuild it in the
-console with `M-x lisply-search-build-index`.
+required.
 
-What the index holds is public by construction: the sources are
+In a deployment the index grows on its own. Every engine image that
+carries its own corpus (Gendl does, under the `lisply.corpus` label)
+has that one file copied out by the deployment tooling at each start,
+and the deployment indexes whatever its configuration names from its
+own mount (the live Genworks demos, the training material at
+[genworks.dev](https://genworks.dev)). The console merges them over
+its baked index, a deployed corpus outranking a same-named baked one —
+so the Gendl searched is the Gendl actually running, not the one this
+image was built against. The contract every project follows to
+provide its corpus, and the reference indexer (`lisply-index`, on the
+path in every Readymacs image), live with the protocol that promises
+the tool: lisply-mcp `CORPUS.md`.
+
+What the baked index holds is public by construction: the sources are
 listed in
 `dot-files/emacs.d/sideloaded/lisply-backend/lisply-search-config.sexp`,
 each marked for distribution, and an image build indexes only those,
