@@ -182,7 +182,7 @@ services alike, each in its own Lisp.
 | `ping_lisp` | is anyone home |
 | `get_docs` / `get_docs_list` | built-in documentation, served on demand |
 | `http_request` | reach the service's HTTP endpoints through one gate |
-| `lisply_search` | search the indexed document corpus (Readymacs consoles) |
+| `lisply_search` | search the bundled Gendl index (Readymacs consoles) — see Bundled Gendl Search Index |
 
 **Where it gets its configuration.** In a deployment, `./basalt up`
 generates the client registries (`mcp/claude_desktop_config.json` for
@@ -220,10 +220,33 @@ variants carry a full browser with a GUI behind it. A lite console
 can add the headless shell at runtime
 (`M-x skewed-install` `headless-shell`).
 
+### Bundled Gendl Search Index
+
+Every Readymacs image comes pre-packaged with a `lisply_search` index,
+built at image build time: a lexical index over the
+[Gendl](https://gitlab.common-lisp.net/gendl/gendl) engine's source
+and documentation, Readymacs's own elisp and configuration, the
+Genworks training material ([genworks.dev](https://genworks.dev)) and
+the live Genworks demos. An agent asks `lisply_search` before it
+writes GDL and gets back whole `define-object` forms and documentation
+sections, each with its file and line range — no `/projects` mount
+required. When the corpora on your own mount move, rebuild it in the
+console with `M-x lisply-search-build-index`.
+
+What the index holds is public by construction: the sources are
+listed in
+`dot-files/emacs.d/sideloaded/lisply-backend/lisply-search-config.sexp`,
+each marked for distribution, and an image build indexes only those,
+with minified assets and vendored trees left out. How it matches and
+ranks is written up in that directory's `CLAUDE.md`.
+
 ### What Else Is Included
 
 Beyond the Emacs daemon and the MCP layer, the image carries working
 gear — every piece of it real and reachable:
+
+- **The Gendl search index** (`lisply_search`): packed at image build
+  time — see Bundled Gendl Search Index above.
 
 - **The web terminal** (port 6942, answering to `webterm` from any
   shell in the container): how a person reaches the console through
