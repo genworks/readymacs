@@ -2,7 +2,9 @@
 
 Readymacs tracks an upstream project, **Readymax**, maintained by
 Gornskew Enterprises (https://github.com/gornskew/readymax), from
-which it is periodically merged. This file is the one place in this
+which it is periodically merged.  Readymax was formerly published as
+**Skewed Emacs**; the old `gornskew/skewed-emacs` address redirects to
+it, and its README points here. This file is the one place in this
 repository that records the relationship; the product documentation
 does not depend on it.
 
