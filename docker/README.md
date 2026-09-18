@@ -1,7 +1,7 @@
 # In-container AI terminal agents
 
 Four terminal AI CLIs ride in the image and come up already wired to
-every MCP server on the stack. This file is the detail; the
+every MCP server in the deployment. This file is the detail; the
 [repository README](../README.md) carries the summary, and
 [BUILD.md](BUILD.md) owns the image variants themselves.
 
@@ -46,7 +46,7 @@ consequences worth knowing before debugging:
 
 - **`which claudly` returns nothing**, and neither does any `sh -c`
   invocation. They only exist in an interactive bash that has sourced
-  the profile — an `M-x vterm`, an `eskew` session, `docker exec -it`.
+  the profile — an `M-x vterm`, an `rmacs` session, `docker exec -it`.
 - They are **not** thin aliases. Each one does real work before exec'ing
   its CLI: `claudly` and `geminly` first `npm update` their own package,
   `geminly` copies the merged config into `~/.gemini/settings.json`,
@@ -76,16 +76,16 @@ those files. `grokly` checks for that marker and warns you to run
 `./basalt up` if it is missing — a much better failure than an agent
 that starts with no tools and does not say so.
 
-The generated entries point at **compose network hostnames**
-(`console:7080`, `front-line:9080`, …) through
-`node …/mcp-wrapper.js`. That is why an agent in a terminal here
-reaches exactly the same services an external Claude Desktop would:
-same roster, same wrapper, different transport.
+The generated entries point at the deployment's **service hostnames on
+the compose network** (the console on 7080, the Gendl engine services
+on 9080 and 9090, …) through `node …/mcp-wrapper.js`. That is why an
+agent in a terminal here reaches exactly the same services an external
+Claude Desktop would: same roster, same wrapper, different transport.
 
 Because the config is generated from the whole roster, it necessarily
-comes from **Basalt** rather than from this repo — the console's
-image cannot know what else is deployed beside it. This repo builds
-the agents; Basalt tells them what to talk to.
+comes from **Basalt** rather than from this repo — a console image
+cannot know what else is deployed. This repo builds the agents; Basalt
+tells them what to talk to.
 
 ## Credentials
 

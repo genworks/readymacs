@@ -1,184 +1,159 @@
-# Emacs Lisply Backend - HTTP API for Emacs Lisp Evaluation
+# The Emacs Lisply backend — an HTTP endpoint for Emacs Lisp evaluation
 
-Emacs Lisply Backend provides a simple HTTP API that exposes Emacs Lisp evaluation capabilities. It allows external clients to interact with Emacs through standard HTTP requests. This project focuses solely on providing the Emacs backend service that can be containerized and deployed independently.
+This directory holds the Readymacs console's own **Lisply backend**:
+a small HTTP service inside the running Emacs daemon that evaluates
+Emacs Lisp on request and returns the result as JSON. The
+[Lisply-MCP](https://github.com/genworks/lisply-mcp) middleware
+connects to it and presents it to any MCP client — Claude Desktop,
+Claude Code, Cursor, Gemini CLI, Codex, and the rest — as a set of
+MCP tools; this directory is the server side of that arrangement.
 
+The protocol is deliberately minimal: HTTP carrying JSON. Any
+service that answers the same protocol — the Gendl engine services
+in a Basalt deployment do — gets the same middleware and the same
+tools. What a compliant backend must implement is specified in the
+middleware's
+[BACKEND-REQS.md](https://github.com/genworks/lisply-mcp/blob/devo/BACKEND-REQS.md).
 
-## Overview
+## Endpoints
 
-GNU Emacs is a powerful text editor that can run as a daemon (server) and contains an interpreter for the Emacs Lisp language. This implementation exposes Emacs functionality via a simple HTTP API, allowing any client to:
+The backend listens on port 7080 inside the container (published as
+7081 on the host when the container is started with `docker/run`;
+see below). All paths sit under the `/lisply/` prefix:
 
-1. Evaluate Emacs Lisp expressions
-2. Access and manipulate buffers
-3. Read and write files
-4. Execute Emacs commands programmatically
+| path | purpose |
+|------|---------|
+| `/lisply/ping-lisp` | availability check — answers `pong` |
+| `/lisply/lisp-eval` | POST Emacs Lisp code; returns the result and captured standard output |
+| `/lisply/tools/list` | the tools the middleware will expose: `ping_lisp`, `lisp_eval`, and `lisply_search` (when a search corpus is present) |
+| `/lisply/lisply-search` | POST a query against the pre-built search index (see the Readymacs README, *The search index*) |
+| `/lisply/docs/list`, `/lisply/docs/<id>` | documentation served on demand (`claude-md` is this backend's agent guidance; `main-claude-md` the repository's) |
+| `/lisply/specs` | capability information for the middleware |
+| `/lisply/resources/list`, `/lisply/prompts/list` | reserved; currently empty |
 
-This enables external tools, scripts, or services to harness the power of Emacs Lisp for text processing, file manipulation, and other operations in a containerized environment.
+The prefix and the two main endpoint names are customizable
+(`emacs-lisply-endpoint-prefix`, `emacs-lisply-ping-endpoint`,
+`emacs-lisply-eval-endpoint`) to match a middleware configured with
+different names; the defaults are what the middleware expects.
 
-## Key Features
+## Calling it directly
 
-- **HTTP Server**: Exposes Emacs functionality through a simple HTTP API
-- **JSON Responses**: Returns data in standardized JSON format
-- **Lisp Evaluation**: Evaluate arbitrary Emacs Lisp code securely
-- **Buffer Access**: List and manipulate Emacs buffers
-- **File Operations**: Read from and write to files
-- **Containerized**: Runs in an isolated Docker container
-
-## Security Considerations
-
-Because this implementation allows arbitrary Emacs Lisp code to be
-evaluated against the running Emacs daemon, best practices are:
-
-- Allow an LLM to connect only to a containerized version of emacs
-  (handled automatically by default by [lisply-mcp
-  project](https://github.com/genworks/lisply-mcp);
-- Make sure not to mount any valuable directories to that container;
-- Take steps to [limit RAM and CPU
-  usage](https://docs.docker.com/engine/containers/resource_constraints/)
-  of the container ([lisply-mcp
-  project](https://github.com/genworks/lisply-mcp) aims to support
-  these options as pass-through to the automated container startup).
-
-
-## Installation
-
-### Direct Installation in Emacs (use with caution if not using a container)
-
-> **Warning:** running this in your host Emacs lets any MCP client evaluate
-> arbitrary Emacs Lisp — i.e. run arbitrary code on your machine. Prefer the
-> container path unless you understand the exposure.
-
-1. Install the required package:
-   - simple-httpd: `M-x package-install RET simple-httpd RET`
-
-2. Add the `source/` directory to your `load-path`, then load the two
-   entry-point files:
-   ```elisp
-   (add-to-list 'load-path "/path/to/lisply-backend/source/")
-   (load "http-setup")
-   (load "endpoints")
-   ```
-
-3. Start the server:
-   ```elisp
-   (emacs-lisply-start-server)   ; binds `httpd-host':`emacs-lisply-port' (default 7080)
-   ```
-
-If you are using skewed-emacs you do not need to do any of this by hand —
-see `etc/lisply-config.el` and `docs/HOST_EMACS_MCP.md`, which wrap these
-steps behind `M-x lisply-enable-host-server` and a security confirmation.
-
-### Docker Container
-
-Build and run the provided Docker container:
+The middleware is the usual client, but any HTTP client works. From
+a shell inside the container:
 
 ```bash
-# Build the container
-./docker/build.sh
+# availability
+curl http://localhost:7080/lisply/ping-lisp
 
-# Run the container
-./docker/run-container.sh
-```
-
-## API Usage
-
-The Lisply backend exposes a simple HTTP API that allows clients to evaluate Emacs Lisp code and interact with Emacs. Clients can directly connect to the server on port 7080 (internal container port) or 7081 (default mapped host port).
-
-### Example API Usage
-
-Here's how to interact with the Lisply backend using curl:
-
-```bash
-# Check if the server is running
-curl http://localhost:7081/lisply/ping-lisp
-
-# Evaluate a simple expression
-curl -X POST http://localhost:7081/lisply/lisp-eval \
+# evaluate an expression
+curl -X POST http://localhost:7080/lisply/lisp-eval \
   -H "Content-Type: application/json" \
   -d '{"code": "(+ 1 2 3)"}'
 
-# Evaluate a simple expression with side-effect printing to *standard-output*
-curl -X POST http://localhost:7081/lisply/lisp-eval \
+# one that also prints to standard output
+curl -X POST http://localhost:7080/lisply/lisp-eval \
   -H "Content-Type: application/json" \
-  -d '{"code": "(let ((result (+ 1 2 3))) (format t "Result is: ~a~%" result) result)"}'
-
+  -d '{"code": "(progn (princ \"a message\") (* 6 7))"}'
 ```
 
-### Integration with Other Tools
+From the host, with the standalone container running, use port 7081.
+Never call the console's own endpoint from *inside* code the console
+is evaluating: the HTTP server runs on the event loop that is busy
+evaluating your request, and the call deadlocks.
 
-This backend can be integrated with any client that can make HTTP requests. It provides the foundation for tools that need to interact with Emacs programmatically, including:
+## Responses
 
-- LLM (Large Language Model) tools
-- Development environments
-- CI/CD pipelines
-- Custom scripts and utilities
+Every response is JSON. A successful evaluation returns
 
-When integrating with tool frameworks that support the Model Context Protocol, you'll need to point them to this server's endpoint.
-
-## MCP Tools
-
-The Emacs Lisply implementation provides two tools for Claude interaction:
-
-- `ping_lisp` - Check if the Emacs server is accessible
-- `lisp_eval` - Evaluate Emacs Lisp code in the Emacs environment
-
-Note: A third tool, `http_request`, is implemented in the Lisply MCP wrapper middleware and not directly in this backend. This tool allows Claude to make HTTP requests to any endpoint on the Emacs server.
-
-## API Endpoints
-
-- `/lisply/ping-lisp` - Check if the server is available
-- `/lisply/lisp-eval` - Evaluate Emacs Lisp code
-- `/lisply/tools/list` - List available MCP tools
-- `/lisply/resources/list` - List available resources (currently empty)
-- `/lisply/prompts/list` - List available prompts (currently empty)
-
-These endpoint paths are configurable via variables in the backend implementation to allow alignment with the MCP wrapper configuration.
-
-## Development
-
-### Project Structure
-
-- `source/http-setup.el` - HTTP server configuration
-- `source/endpoints.el` - MCP endpoint definitions
-
-### Building the Container
-
-The container build process:
-1. Copies the entire skewed-emacs repository into the container
-2. Runs the `./setup` script to configure the Emacs environment
-3. Installs required packages using the on-demand installation mechanism in init.el
-4. Configures the Lisply backend
-
-```bash
-./docker/build.sh -t your-tag -n your-image-name
+```json
+{"success": true, "result": "6", "stdout": ""}
 ```
 
-Now you can configure your mcp-wrapper.js to use this new container
-image, or first test it by running manually:
+and a failed one returns
 
-```bash
-./docker/run-container.sh -i your-image-name:your-tag -p 7081 -m /path/to/your/projects
+```json
+{"success": false, "error": "the message"}
 ```
 
-Note: By default, the container exposes port 7080 internally but maps
-to port 7081 on the host to avoid potential conflicts.
+Results are rendered with `format "%s"`: strings keep their text,
+lists their printed form, `t` and `nil` are themselves. There is no
+interactive debugger on this endpoint — Emacs Lisp has no equivalent
+of the Common Lisp restarts a Gendl service can offer — so an error
+response is the whole story.
 
-## Error Handling
+## Where it runs, mode by mode
 
-The Lisply backend provides structured error handling via HTTP responses:
+- **In a Basalt deployment** (`./basalt up` in a Basalt clone):
+  nothing to configure. The console starts with the endpoint listening
+  on the deployment's network and the middleware already configured;
+  `./basalt up` writes the MCP client configuration that points
+  agents at it.
 
-- Success responses include a `success` field set to `true`, along with `result` and `stdout` fields
-- Error responses set the `success` field to `false` and include an `error` field with the error message
+- **As a standalone container** (`docker/run` from a clone of this
+  repository): the same, without the deployment — the endpoint listens
+  inside the container and is published on host port 7081 (`-p`
+  chooses another). The middleware is not in the container; point one
+  at the published port:
 
-Unlike Common Lisp implementations, Emacs Lisp doesn't have a built-in interactive debugger that can be exposed via stdio. The error handling is entirely through the structured HTTP responses.
+  ```bash
+  node /path/to/lisply-mcp/scripts/mcp-wrapper.js \
+    --server-name readymacs --backend-host 127.0.0.1 --http-host-port 7081
+  ```
+
+- **Installed on your host** (`./setup`, the Readymacs configuration
+  in your own Emacs): the endpoint is **off by default**, and for
+  good reason. Read
+  [docs/HOST_EMACS_MCP.md](../../../../docs/HOST_EMACS_MCP.md)
+  before enabling it: on your own machine it grants arbitrary code
+  execution with your user's privileges, and nothing sandboxes it.
+  `M-x lisply-enable-host-server` enables it for one session after a
+  warning you must acknowledge; `./setup --with-mcp` makes it
+  permanent. Either way it binds to loopback only
+  (`lisply-host-server-bind-address`).
+
+> **Warning:** wherever it runs, `lisp_eval` is arbitrary code
+> execution by design. In the container that is the point — the
+> container is the sandbox, and nothing valuable is inside it unless
+> you mount it. On a host it is your machine.
+
+Loading the backend by hand, in any Emacs with `simple-httpd`
+installed (`M-x package-install RET simple-httpd RET`):
+
+```elisp
+(add-to-list 'load-path "/path/to/lisply-backend/source/")
+(load "http-setup")
+(load "endpoints")
+(emacs-lisply-start-server)   ; binds `httpd-host':`emacs-lisply-port' (7080)
+```
+
+`emacs-lisply-stop-server` stops it; `emacs-lisply-server-status`
+reports which. In Readymacs none of this is typed by hand:
+`etc/lisply-config.el` wraps it behind `lisply-enable-host-server`
+and the warning.
+
+## Files
+
+- `source/http-setup.el` — the HTTP server: the listener, request
+  and response plumbing
+- `source/endpoints.el` — every endpoint above, and the pre-eval
+  lint that refuses an unbounded child process (see `CLAUDE.md`,
+  *the guard*)
+- `source/lisply-shell-guard.el` — that guard, and
+  `lisply-shell-bounded` / `lisply-shell-async`, the supported ways
+  to run a subprocess from evaluated code
+- `source/lisply-search.el`, `lisply-search-config.sexp` — the
+  search index, and the list of sources an image build packs into it
+- `source/lisply-edit-helpers.el`, `source/lisply-sexp-write.el` —
+  helpers for agents editing files through the endpoint
+- `CLAUDE.md` — the agent guidance served as the `claude-md`
+  document: safe reading and editing in an Emacs shared with a
+  person, the shared-buffer pitfall, paredit, the guard, and the
+  search tool's parameters
 
 ## License
 
-This project is licensed under the GNU Affero General Public License
-v3.0 (AGPL-3.0), which is compatible with GNU Emacs' GPL-3.0
-license. The AGPL-3.0 provides all the protections of GPL-3.0 plus an
-additional provision to ensure that modifications to the software when
-used over a network are also made available to users.
-
-## Acknowledgments
-
-Thank you to emacs developers and the MCP community.
+AGPL-3.0-or-later, © 2026 Genworks International, portions © 2026
+Gornskew Enterprises — the same terms as the Readymacs repository
+this directory belongs to, compatible with GNU Emacs's own GPL-3.0.
+The AGPL adds one provision to the GPL: a modification used over a
+network must be offered to the users it serves.

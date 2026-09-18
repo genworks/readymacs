@@ -1,6 +1,6 @@
 # CI: Native Multi-Arch Image Builds
 
-Automated builds of the `skewed-emacs` images via GitLab CI, replacing
+Automated builds of the `readymacs` images via GitLab CI, replacing
 manual `docker/build --multi-arch` runs.
 
 ## Why native runners instead of buildx cross-builds

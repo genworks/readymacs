@@ -1,8 +1,8 @@
 # A First Session: Building a Staircase Through MCP
 
 This is a lightly edited transcript of a real first session: Claude
-(via Claude Desktop) connected to a freshly started skewed-emacs
-container stack, talking to the `skewed-emacs` (Emacs) and `gendl-ccl`
+(via Claude Desktop) connected to a freshly started Basalt
+deployment, talking to the `readymacs` (Emacs) and `gendl-ccl`
 (Gendl/Common Lisp) MCP servers. Every tool call and result below is
 genuine — captured live, trimmed only for brevity.
 
@@ -21,7 +21,7 @@ want treads of 2x6 deck lumber.
 **Claude:** I'll start by saying hello to Emacs, then set up a
 parametric staircase model in Gendl.
 
-*Tool call — `skewed-emacs__lisp_eval`:*
+*Tool call — `readymacs__lisp_eval`:*
 
 ```elisp
 (with-current-buffer "*scratch*"

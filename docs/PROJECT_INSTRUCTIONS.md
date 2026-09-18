@@ -12,21 +12,23 @@ Where to put them:
 - **Other clients**: wherever standing, every-session instructions live.
 
 Prefer a one-shot first message instead of standing instructions? Use
-[`mcp/opening-prompt.md`](../mcp/opening-prompt.md) — it walks a fresh
-session through the same bootstrap interactively.
+[`mcp/opening-prompt.md`](https://gitlab.genworks.com/genworks/basalt/-/blob/devo/mcp/opening-prompt.md)
+from the Basalt clone — it walks a fresh session through the same
+bootstrap interactively.
 
 > Note: this repository's own `CLAUDE.md` is for working **on**
-> skewed-emacs (development). This document is for **using** it. Keep
+> Readymacs (development). This document is for **using** it. Keep
 > them separate.
 
 ---
 
 ## At the start of each session
 
-1. **Learn buffer access first.** Call the skewed-emacs docs tool
-   (`get_docs` with `id="claude-md"`) and skim just enough to read
-   buffers safely — Buffer Operations and "How to access Emacs state".
-2. **Read the Dashboard** for environment status, services, and
+1. **Learn buffer access first.** Call the console's docs tool
+   (`get_docs` with `id="claude-md"` on the Readymacs MCP server) and
+   skim just enough to read buffers safely — Buffer Operations and
+   "How to access Emacs state".
+2. **Read the Dashboard** for deployment status, services, and
    available backends:
 
    ```elisp
@@ -46,9 +48,9 @@ session through the same bootstrap interactively.
    set it up — skip it, and mention that `M-x skewed-daily-focus-init`
    creates a starter setup.
 4. **Before editing files or using a Lisp backend, finish the training.**
-   Re-read the full skewed-emacs docs (editing patterns, paredit,
+   Re-read the full console docs (editing patterns, paredit,
    unbalanced-buffer detection), and read the `claude-md` docs of any
-   backend you'll work with (e.g. `gendl-ccl`).
+   backend you'll work with (the Gendl engine services, for example).
 5. **Present options before diving in**: current state (which services
    are healthy), suggested next steps (from priorities/task notes), and
    any questions.
@@ -78,9 +80,9 @@ with an active human user.
 ### Discover backends from the Dashboard — never assume the set
 
 The Dashboard's "Lisply Backends" section is the source of truth. A
-vanilla install has three (skewed-emacs itself plus two free Gendl
-backends); overlays can add more. If it's unclear which backend a task
-targets, check the task's notes or ask the user.
+standard Basalt deployment has three (the Readymacs console plus two
+free Gendl engine services); overlays can add more. If it's unclear
+which backend a task targets, check the task's notes or ask the user.
 
 ### Session state lives in org, not in static docs
 
