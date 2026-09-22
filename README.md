@@ -17,10 +17,9 @@ interactive **console** of a [Basalt](https://github.com/genworks/basalt)
 deployment, as a **standalone container**, or **directly on your
 host** as a conventional Emacs configuration. In every mode it
 carries a built-in MCP endpoint (the lisply backend) through which AI
-agents — Claude Desktop, Claude Code, Gemini CLI, Codex, LM
-Studio, or anything else that speaks
-[MCP](https://modelcontextprotocol.org) — can work alongside you in
-the same running Emacs.
+agents (Claude Desktop, Claude Code, Gemini CLI, Codex, LM Studio, or
+anything else that speaks [MCP](https://modelcontextprotocol.org))
+can work alongside you in the same running Emacs.
 
 Readymacs and [Basalt](https://github.com/genworks/basalt)
 are the recommended, supported development environments for the
@@ -29,33 +28,29 @@ puts in front of them, for people and for agents alike.
 
 ![Readymacs Logo](img/skewed-colorful.png)
 
-## Why Readymacs? The Inversion
+## How Readymacs Works with Agents
 
-The prevailing custom is to embed one AI agent *inside* the editor:
-wired into a single application, speaking only through it, one more
-fixture among the features. The editor is the agent's whole world.
+Readymacs embeds no AI agent; it receives them. Any MCP-capable
+client connects from outside, and the running Emacs (its buffers,
+its REPLs, its tooling) joins the visiting agent's own toolkit: files
+opened, code evaluated, builds run, at the visitor's initiative and
+under your supervision.
 
-Readymacs inverts that arrangement. The environment embeds no agent;
-it *receives* them. Any MCP-capable client can connect from outside,
-and the running Emacs — its buffers, its REPLs, its tooling — joins
-the visiting agent's own toolkit: files opened, code evaluated,
-builds run, at the visitor's initiative and under your supervision.
-
-Nor is the reception unique to Emacs. In a Basalt deployment the
+The reception is not unique to Emacs. In a Basalt deployment the
 Gendl engine services answer the same lightweight HTTP protocol
-(called *Lisply*), and offer a connecting agent the same reception —
+(called *Lisply*) and offer a connecting agent the same reception,
 each service in its own Lisp dialect.
 
 This repository covers the Emacs environment itself. The wider
-arrangement — whole service stacks started and stopped with one
-command, every service agent-ready — lives with the
+arrangement, whole service stacks started and stopped with one
+command with every service agent-ready, lives with the
 [Basalt](https://github.com/genworks/basalt) build system.
 
 ## What Will I Find Here?
 
 This repository holds two assets:
 
-1.  the complete Emacs configuration — `dot-files/` — including the
+1.  the complete Emacs configuration (`dot-files/`), including the
     MCP (lisply) backend. Installed directly on a host, this is the
     whole product; no part of (2) is required.
 
@@ -76,7 +71,7 @@ documentation for the service roster and naming rules.
 
 ## The Three Installation Modes
 
-**Mode A — In a Basalt Deployment (recommended):** clone the
+**Mode A, in a Basalt deployment (recommended):** clone the
 [Basalt](https://github.com/genworks/basalt) repository and
 run `./basalt up` there. A whole deployment comes up around the
 console: Emacs, Gendl engine services, monitoring.
@@ -87,8 +82,8 @@ the containerized Emacs (see the Basalt README). You do not need to
 run `./setup`. You do not need Emacs installed on your host. You do
 need Docker.
 
-**Mode B — Standalone Container:** the image runs freestanding on
-any machine with Docker — no deployment, no other services. From a
+**Mode B, standalone container:** the image runs freestanding on
+any machine with Docker: no deployment, no other services. From a
 clone of this repository:
 
 ```bash
@@ -99,7 +94,7 @@ The container comes up self-contained: the Emacs daemon running, the
 MCP endpoint listening (host port 7081 by default; `-p` chooses
 another), your `~/projects/` mounted at `/projects` when it exists.
 
-**Mode C — Direct Host Installation:** run `./setup`. The Readymacs
+**Mode C, direct host installation:** run `./setup`. The Readymacs
 configuration files are linked into your host account (`~/.emacs.d`,
 `~/.bash_profile`, etc.) for use by your own host Emacs. This starts
 no containers. MCP support is **off by default** in this mode: the
@@ -117,7 +112,7 @@ host this grants arbitrary code execution on your machine and is not
 sandboxed the way the containerized modes are. Mode C only makes
 sense if Emacs is already installed on your host.
 
-**Any combination:** the modes are independent and each idempotent —
+**Any combination:** the modes are independent and each idempotent:
 a host installation (`./setup`), a standalone container
 (`docker/run`), and a full deployment (`./basalt up`) can all coexist
 on one machine.
@@ -146,14 +141,14 @@ ones.
   - Magit, Org-mode
   - Doom Color Themes, theme switching functions
 
-- **Lisply-MCP (Model Context Protocol) Elisp Backend** — the MCP
+- **Lisply-MCP (Model Context Protocol) Elisp Backend**, the MCP
     service surface:
   - lets AI agents drive the running Emacs through standard
     [lisply-mcp](https://github.com/genworks/lisply-mcp).
   - Defined & sideloaded locally from
     `dot-files/emacs.d/sideloaded/lisply-backend/`
-  - See The MCP Configuration Surface below — this is a
-    configuration surface worth understanding, not furniture.
+  - See The MCP Configuration Surface below; it is a
+    configuration surface worth understanding.
 
 - **Image builds**: the container image is built from
     `docker/Dockerfile` by `docker/build`, published to
@@ -170,7 +165,7 @@ should know what passes through it.
 and plain HTTP to the backend on the other. The Emacs daemon answers
 a small HTTP dialect on port 7080 in-container
 (`/lisply/lisp-eval`, `/lisply/ping-lisp`, ...), and any service
-speaking that same dialect gets the same treatment — which is why one
+speaking that same dialect gets the same treatment, which is why one
 wrapper configuration serves the Emacs console and the Gendl engine
 services alike, each in its own Lisp.
 
@@ -178,33 +173,33 @@ services alike, each in its own Lisp.
 
 | Tool | What it does |
 |------|--------------|
-| `lisp_eval` | evaluate code in the service's own Lisp — the working channel |
+| `lisp_eval` | evaluate code in the service's own Lisp: the working channel |
 | `ping_lisp` | is anyone home |
 | `get_docs` / `get_docs_list` | built-in documentation, served on demand |
 | `http_request` | reach the service's HTTP endpoints through one gate |
-| `lisply_search` | search the bundled Gendl index (Readymacs consoles) — see Bundled Gendl Search Index |
+| `lisply_search` | search the bundled Gendl index (Readymacs consoles); see Bundled Gendl Search Index |
 
 **Where it gets its configuration.** In a deployment, `./basalt up`
 generates the client registries (`mcp/claude_desktop_config.json` for
 Claude Desktop, and the matching form for each bundled agent CLI). In
 the standalone container the endpoint listens just as it does in a
 deployment. On the host it works only where a lisply-mcp wrapper is
-configured — and either way, the wrapper is reception, not the lock.
+configured; either way, the wrapper is reception, not the lock.
 The lock is the **endpoints** themselves, which any HTTP client that
 reaches them can call directly, no wrapper involved. In the
-containerized modes that is fine — the container is the sandbox and
+containerized modes that is fine: the container is the sandbox and
 the endpoints open inside it. On the host it is exactly why they stay
 disabled by default (see Mode C).
 
 **What to understand before enabling it.** `lisp_eval` is arbitrary
-code execution, by design. In a container, that is the point — the
+code execution, by design. In a container, that is the point: the
 container is the sandbox. On the host it is your machine; read
 [docs/HOST_EMACS_MCP.md](docs/HOST_EMACS_MCP.md) first.
 
-### Webshot — page captures from inside the container
+### Webshot: page captures from inside the container
 
 `webshot URL [out.png] [WxH] [--mobile] [--settle=MS]` captures any
-web page from a **real emulated viewport** — page JS and CSS both
+web page from a **real emulated viewport**: page JS and CSS both
 see exactly the width you asked for, and `--mobile` adds touch
 emulation, so phone-size captures are honest rather than merely
 plausible. `webshot-clip URL SELECTOR [out.png]` clips to the first
@@ -228,7 +223,7 @@ and configuration and, so a standalone console works on its own, over
 the [Gendl](https://gitlab.common-lisp.net/gendl/gendl) engine's
 source and documentation. An agent asks `lisply_search` before it
 writes GDL and gets back whole `define-object` forms and documentation
-sections, each with its file and line range — no `/projects` mount
+sections, each with its file and line range; no `/projects` mount is
 required.
 
 In a deployment the index grows on its own. Every engine image that
@@ -237,7 +232,7 @@ has that one file copied out by the deployment tooling at each start,
 and the deployment indexes whatever its configuration names from its
 own mount (the live Genworks demos, the training material at
 [genworks.dev](https://genworks.dev)). The console merges them over
-its baked index, a deployed corpus outranking a same-named baked one —
+its baked index, a deployed corpus outranking a same-named baked one,
 so the Gendl searched is the Gendl actually running, not the one this
 image was built against. The contract every project follows to
 provide its corpus, and the reference indexer (`lisply-index`, on the
@@ -254,10 +249,10 @@ ranks is written up in that directory's `CLAUDE.md`.
 ### What Else Is Included
 
 Beyond the Emacs daemon and the MCP layer, the image carries working
-gear — every piece of it real and reachable:
+gear, every piece of it real and reachable:
 
 - **The Gendl search index** (`lisply_search`): packed at image build
-  time — see Bundled Gendl Search Index above.
+  time; see Bundled Gendl Search Index above.
 
 - **The web terminal** (port 6942, answering to `webterm` from any
   shell in the container): how a person reaches the console through
@@ -265,30 +260,30 @@ gear — every piece of it real and reachable:
   the MCP layer; people take the web terminal.
 
 - **Webshot** (`webshot` / `webshot-clip`): page captures from
-  inside the container — see the Webshot section above.
+  inside the container; see the Webshot section above.
 
 - **Bundled agent CLIs** (the `-aituis` variants, including
   `-full`): four terminal AI agents for conversing with an agent
-  directly — a separate channel from the MCP endpoints, so you can
+  directly, a separate channel from the MCP endpoints, so you can
   talk with an agent in one window while it works the deployment's
   services through MCP. See Bundled Agent CLIs below.
 
 - **Background processes**: the console runs its housekeeping as
-  ordinary Emacs subprocesses — the dashboard refresher, file
-  watchers, long-running builds — visible in the buffer list
+  ordinary Emacs subprocesses (the dashboard refresher, file
+  watchers, long-running builds), visible in the buffer list
   (`C-x b`), never wedging the editor.
 
 - **`node`**: included for your own JavaScript work under
-  `/projects` — builds and checks run inside the container rather
+  `/projects`; builds and checks run inside the container rather
   than on your host.
 
-- **`M-x skewed-install`**: capabilities added at runtime —
+- **`M-x skewed-install`**: capabilities added at runtime:
   on-demand fitting of the headless browser onto a lite console, or
   the agent CLIs onto any variant, without rebuilding the image.
 
 ## In a Basalt Deployment (recommended)
 
-Everything runs inside Docker containers — **you need not run
+Everything runs inside Docker containers; **you need not run
 `./setup`, install any configuration, or touch your own host
 Emacs.** Your host machine stays clean apart from the shell
 convenience commands `./basalt up` installs for reaching the
@@ -297,9 +292,9 @@ containerized Emacs.
 ### Requirements
 
  - Git
- - Docker — see [macOS-Specific Section](#macos-specific-section) if on a Mac
+ - Docker; see [macOS-Specific Section](#macos-specific-section) if on a Mac
 
-### Quickest Start — clone Basalt and start the deployment
+### Quickest Start: clone Basalt and start the deployment
 
 ```bash
 git clone https://github.com/genworks/basalt
@@ -317,7 +312,7 @@ Claude Desktop Project's custom instructions (or your `CLAUDE.md` /
 
 ### Initial Setup (full clone)
 
-1. Copy this repository anywhere you like — `~/readymacs` is fine:
+1. Copy this repository anywhere you like; `~/readymacs` is fine:
 
 ```bash
 
@@ -331,7 +326,7 @@ Claude Desktop Project's custom instructions (or your `CLAUDE.md` /
    want to hack on Readymacs internals from inside the container
    (the host `~/projects/` directory is mounted at `/projects`
    there). For just *using* Readymacs to work on other projects,
-   the clone location doesn't matter — the running container never
+   the clone location doesn't matter; the running container never
    needs the clone.
 
 2. Start the default deployment (from a Basalt clone):
@@ -350,7 +345,7 @@ To force pulling the latest images, use:
 
 After the deployment is up, the generated shell convenience commands
 for reaching the containerized Emacs are available in new shells on
-your host — see the Basalt README for their names and usage, and for
+your host; see the Basalt README for their names and usage, and for
 what (single) modification is made to your shell startup files.
 
 After you are in, see the "Getting Started" section near the top of
@@ -365,8 +360,8 @@ repository](https://github.com/genworks/basalt) for details.
 ### Bundled Agent CLIs (Claude Code, Gemini CLI, Codex, Grok)
 
 The `-aituis` image variants (including `-full`, which is an alias
-for `gui-aituis`) bundle four terminal AI agents — launched from any
-shell inside the container (`M-x vterm`) — while those same agents
+for `gui-aituis`) bundle four terminal AI agents, launched from any
+shell inside the container (`M-x vterm`), while those same agents
 reach the deployment's services through the MCP layer:
 
 | Agent | Launcher | First login |
@@ -376,21 +371,21 @@ reach the deployment's services through the MCP layer:
 | OpenAI Codex | `codexly` | Interactive login, or `OPENAI_API_KEY` |
 | Grok Build (xAI) | `grokly` | `grok login`, or `GROK_DEPLOYMENT_KEY` |
 
-They come up preconfigured — every service endpoint in the
+They come up preconfigured, with every service endpoint in the
 deployment wired in: `./basalt up` merges the service configs and
 installs them in whatever form each agent CLI expects, so an agent
 you converse with in a terminal here reaches the same services an
 outside Claude Desktop would. Credentials are volume-mounted from
 your host and survive restarts and recreates.
 
-A variant without them is not a dead end — `M-x skewed-install` fits
+A variant without them is not a dead end: `M-x skewed-install` fits
 the agent CLIs on demand, though those fittings are ephemeral. And
 an outside MCP client works identically against any variant, `lite`
 included.
 
-**Details** — which config lands where, why the launchers are shell
+**Details**, which config lands where, why the launchers are shell
 functions rather than binaries, the Grok credential-mount asymmetry,
-and the build-stage layout — are in
+and the build-stage layout, are in
 [docker/README.md](docker/README.md).
 
 ## Windows-Specific Section
@@ -413,8 +408,8 @@ described in the [instructions](windows-keybindings/README.md).
 
 ### Emacs in the Web Terminal (ttyd) on Windows
 
-If you use the web terminal — Emacs in a browser tab on port 6942, or
-a hosted session — Edge and Chrome will steal a few chords before the
+If you use the web terminal (Emacs in a browser tab on port 6942, or
+a hosted session), Edge and Chrome will steal a few chords before the
 terminal sees them: `C-n` opens a new window, `C-p` prints, and `C-w`
 closes the tab you are working in. No setting inside the page can
 stop that. We bundle a second AutoHotkey config,
@@ -430,7 +425,7 @@ genuine control characters back.
 
 ### macOS Prerequisites
 
-`basalt` is pure POSIX sh — no special shell is required on macOS.
+`basalt` is pure POSIX sh; no special shell is required on macOS.
 The only requirement is **Docker Desktop**.
 
 #### Install Docker Desktop
@@ -450,7 +445,7 @@ Once Docker is running, `./basalt up` will work normally.
 
 This section is for installing the Readymacs configuration
 **directly on your host machine**, without Docker. It is independent
-of the other modes — do not run `./setup` as part of a deployment or
+of the other modes: do not run `./setup` as part of a deployment or
 standalone-container setup; it is not needed and not intended for
 those.
 
@@ -615,13 +610,13 @@ icons rather than loud colorful gaudy ones.
 ## Customization
 
 For personal customizations that shouldn't be committed to this
-repository, keep a file of your own — `~/.emacs-local` — read last
+repository, keep a file of your own, `~/.emacs-local`, read last
 at every Emacs startup.
 
 ## License
 
 AGPL-3.0-or-later, © 2026 Genworks International; portions © 2026
-Gornskew Enterprises — see [LICENSE](LICENSE). Provenance and the
+Gornskew Enterprises; see [LICENSE](LICENSE). Provenance and the
 upstream relationship are recorded in [UPSTREAM.md](UPSTREAM.md).
 The vendored SLIME under `dot-files/emacs.d/sideloaded/slime-v2.28/` is
 third-party and keeps its own terms; see [its
