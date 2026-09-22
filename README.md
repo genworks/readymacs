@@ -13,7 +13,7 @@ ANY WARRANTY; see <https://www.gnu.org/licenses/agpl-3.0.html>.
 
 Readymacs is a complete, batteries-included GNU Emacs distribution
 built for AI-assisted Lisp development. It runs three ways: as the
-interactive **console** of a [Basalt](https://gitlab.genworks.com/genworks/basalt)
+interactive **console** of a [Basalt](https://github.com/genworks/basalt)
 deployment, as a **standalone container**, or **directly on your
 host** as a conventional Emacs configuration. In every mode it
 carries a built-in MCP endpoint (the lisply backend) through which AI
@@ -22,7 +22,7 @@ Studio, or anything else that speaks
 [MCP](https://modelcontextprotocol.org) — can work alongside you in
 the same running Emacs.
 
-Readymacs and [Basalt](https://gitlab.genworks.com/genworks/basalt)
+Readymacs and [Basalt](https://github.com/genworks/basalt)
 are the recommended, supported development environments for the
 Gendl and GDL engines; Readymacs is the console a Basalt deployment
 puts in front of them, for people and for agents alike.
@@ -49,7 +49,7 @@ each service in its own Lisp dialect.
 This repository covers the Emacs environment itself. The wider
 arrangement — whole service stacks started and stopped with one
 command, every service agent-ready — lives with the
-[Basalt](https://gitlab.genworks.com/genworks/basalt) build system.
+[Basalt](https://github.com/genworks/basalt) build system.
 
 ## What Will I Find Here?
 
@@ -65,7 +65,7 @@ This repository holds two assets:
 
 Running that image alongside Gendl engine services and the rest of a
 working deployment is a third thing with its own repository:
-**[Basalt](https://gitlab.genworks.com/genworks/basalt)**. Basalt is
+**[Basalt](https://github.com/genworks/basalt)**. Basalt is
 the deployment; **Readymacs** is the console and the image that
 carries it.
 
@@ -77,7 +77,7 @@ documentation for the service roster and naming rules.
 ## The Three Installation Modes
 
 **Mode A — In a Basalt Deployment (recommended):** clone the
-[Basalt](https://gitlab.genworks.com/genworks/basalt) repository and
+[Basalt](https://github.com/genworks/basalt) repository and
 run `./basalt up` there. A whole deployment comes up around the
 console: Emacs, Gendl engine services, monitoring.
 
@@ -107,7 +107,7 @@ lisply-backend endpoints stay disabled until you enable them
 (`./setup --with-mcp` or, from inside Emacs,
 `M-x lisply-enable-host-server`). Two things vary in a host
 installation: whether the endpoints are enabled, and whether an MCP
-wrapper ([lisply-mcp](https://gitlab.genworks.com/genworks/lisply-mcp))
+wrapper ([lisply-mcp](https://github.com/genworks/lisply-mcp))
 is configured in front of them. Understand that the endpoints, not
 the wrapper, are the security boundary: enabled endpoints accept any
 HTTP client that reaches them, wrapper or no wrapper, while a
@@ -149,7 +149,7 @@ ones.
 - **Lisply-MCP (Model Context Protocol) Elisp Backend** — the MCP
     service surface:
   - lets AI agents drive the running Emacs through standard
-    [lisply-mcp](https://gitlab.genworks.com/genworks/lisply-mcp).
+    [lisply-mcp](https://github.com/genworks/lisply-mcp).
   - Defined & sideloaded locally from
     `dot-files/emacs.d/sideloaded/lisply-backend/`
   - See The MCP Configuration Surface below — this is a
@@ -162,7 +162,7 @@ ones.
 ### The MCP Configuration Surface
 
 The MCP layer is working gear, not decoration: its implementation is
-public ([lisply-mcp](https://gitlab.genworks.com/genworks/lisply-mcp)),
+public ([lisply-mcp](https://github.com/genworks/lisply-mcp)),
 it stands between connecting agents and your running Emacs, and you
 should know what passes through it.
 
@@ -302,7 +302,7 @@ containerized Emacs.
 ### Quickest Start — clone Basalt and start the deployment
 
 ```bash
-git clone https://gitlab.genworks.com/genworks/basalt
+git clone https://github.com/genworks/basalt
 cd basalt
 ./basalt up
 ```
@@ -322,7 +322,7 @@ Claude Desktop Project's custom instructions (or your `CLAUDE.md` /
 ```bash
 
    cd
-   git clone https://gitlab.genworks.com/genworks/readymacs
+   git clone https://github.com/genworks/readymacs
    cd readymacs
 
 ```
@@ -360,7 +360,7 @@ the default landing dashboard.
 
 This is trivial to do with the generated
 `mcp/claude_desktop_config.json`. Please see [the Basalt
-repository](https://gitlab.genworks.com/genworks/basalt) for details.
+repository](https://github.com/genworks/basalt) for details.
 
 ### Bundled Agent CLIs (Claude Code, Gemini CLI, Codex, Grok)
 
@@ -468,7 +468,7 @@ those.
 
 ```bash
 
-   git clone https://gitlab.genworks.com/genworks/readymacs
+   git clone https://github.com/genworks/readymacs
    cd readymacs
 
 ```

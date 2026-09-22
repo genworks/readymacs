@@ -9,7 +9,7 @@ working in this repo.
 [Readymax](https://github.com/gornskew/readymax) (remote `upstream`
 in a working clone): a complete GNU Emacs distribution for
 AI-assisted Lisp development, deployable as the console of a
-[Basalt](https://gitlab.genworks.com/genworks/basalt) deployment, as
+[Basalt](https://github.com/genworks/basalt) deployment, as
 a standalone container (`docker/run`), or directly on a host
 (`./setup`).
 

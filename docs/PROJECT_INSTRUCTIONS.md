@@ -12,7 +12,7 @@ Where to put them:
 - **Other clients**: wherever standing, every-session instructions live.
 
 Prefer a one-shot first message instead of standing instructions? Use
-[`mcp/opening-prompt.md`](https://gitlab.genworks.com/genworks/basalt/-/blob/devo/mcp/opening-prompt.md)
+[`mcp/opening-prompt.md`](https://github.com/genworks/basalt/blob/devo/mcp/opening-prompt.md)
 from the Basalt clone — it walks a fresh session through the same
 bootstrap interactively.
 
