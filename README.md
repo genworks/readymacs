@@ -17,7 +17,7 @@ interactive **console** of a [Basalt](https://gitlab.genworks.com/genworks/basal
 deployment, as a **standalone container**, or **directly on your
 host** as a conventional Emacs configuration. In every mode it
 carries a built-in MCP endpoint (the lisply backend) through which AI
-agents — Claude Desktop, Claude Code, Cursor, Gemini CLI, Codex, LM
+agents — Claude Desktop, Claude Code, Gemini CLI, Codex, LM
 Studio, or anything else that speaks
 [MCP](https://modelcontextprotocol.org) — can work alongside you in
 the same running Emacs.

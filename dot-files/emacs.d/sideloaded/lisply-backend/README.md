@@ -5,7 +5,7 @@ a small HTTP service inside the running Emacs daemon that evaluates
 Emacs Lisp on request and returns the result as JSON. The
 [Lisply-MCP](https://github.com/genworks/lisply-mcp) middleware
 connects to it and presents it to any MCP client — Claude Desktop,
-Claude Code, Cursor, Gemini CLI, Codex, and the rest — as a set of
+Claude Code, Gemini CLI, Codex, and the rest — as a set of
 MCP tools; this directory is the server side of that arrangement.
 
 The protocol is deliberately minimal: HTTP carrying JSON. Any
