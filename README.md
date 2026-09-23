@@ -26,7 +26,7 @@ are the recommended, supported development environments for the
 Gendl and GDL engines; Readymacs is the console a Basalt deployment
 puts in front of them, for people and for agents alike.
 
-![Readymacs Logo](img/skewed-colorful.png)
+![The Readymacs dashboard: a standalone container beside a Gendl engine](img/readymacs-dashboard.png)
 
 ## How Readymacs Works with Agents
 
