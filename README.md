@@ -13,9 +13,10 @@ ANY WARRANTY; see <https://www.gnu.org/licenses/agpl-3.0.html>.
 
 Readymacs is a complete, batteries-included GNU Emacs distribution
 built for AI-assisted Lisp development. It runs three ways: as the
-interactive **console** of a [Basalt](https://github.com/genworks/basalt)
-deployment, as a **standalone container**, or **directly on your
-host** as a conventional Emacs configuration. In every mode it
+interactive **editing console** of a
+[Basalt](https://github.com/genworks/basalt) deployment, as a
+**standalone container**, or **directly on your host** as a
+conventional Emacs configuration. In every mode it
 carries a built-in MCP endpoint (the lisply backend) through which AI
 agents (Claude Desktop, Claude Code, Gemini CLI, Codex, LM Studio, or
 anything else that speaks [MCP](https://modelcontextprotocol.org))
@@ -23,8 +24,8 @@ can work alongside you in the same running Emacs.
 
 Readymacs and [Basalt](https://github.com/genworks/basalt)
 are the recommended, supported development environments for the
-Gendl and GDL engines; Readymacs is the console a Basalt deployment
-puts in front of them, for people and for agents alike.
+Gendl and GDL engines; Readymacs is the editing console a Basalt
+deployment puts in front of them, for people and for agents alike.
 
 ![The Readymacs dashboard: a standalone container beside a Gendl engine](img/readymacs-dashboard.png)
 
@@ -61,12 +62,12 @@ This repository holds two assets:
 Running that image alongside Gendl engine services and the rest of a
 working deployment is a third thing with its own repository:
 **[Basalt](https://github.com/genworks/basalt)**. Basalt is
-the deployment; **Readymacs** is the console and the image that
-carries it.
+the deployment; **Readymacs** is the editing console and the image
+that carries it.
 
-In a deployment, the console's Docker compose service answers on the
-network by its service hostname, while the container itself carries a
-generated instance name assigned at startup. See the Basalt
+In a deployment, the editing console's Docker compose service answers
+on the network by its service hostname, while the container itself
+carries a generated instance name assigned at startup. See the Basalt
 documentation for the service roster and naming rules.
 
 ## The Three Installation Modes
@@ -74,7 +75,7 @@ documentation for the service roster and naming rules.
 **Mode A, in a Basalt deployment (recommended):** clone the
 [Basalt](https://github.com/genworks/basalt) repository and
 run `./basalt up` there. A whole deployment comes up around the
-console: Emacs, Gendl engine services, monitoring.
+editing console: Emacs, Gendl engine services, monitoring.
 
 That pulls and starts several Docker containers and leaves your host
 machine untouched apart from shell convenience commands for reaching
@@ -133,7 +134,7 @@ ones.
     the health of every service endpoint in the deployment, the
     day's org-mode agenda, and one-key entry into SLIME with any
     connected Lisp service. In a deployment, the banner reflects
-    the console's service identity.
+    the editing console's service identity.
 
 - **Preïnstalled, pre-native-compiled third-party packages** (examples):
   - [Slime](https://en.wikipedia.org/wiki/SLIME) for Common Lisp / Swank
@@ -166,7 +167,7 @@ and plain HTTP to the backend on the other. The Emacs daemon answers
 a small HTTP dialect on port 7080 in-container
 (`/lisply/lisp-eval`, `/lisply/ping-lisp`, ...), and any service
 speaking that same dialect gets the same treatment, which is why one
-wrapper configuration serves the Emacs console and the Gendl engine
+wrapper configuration serves the Emacs editing console and the Gendl engine
 services alike, each in its own Lisp.
 
 **The tools it presents to a connecting agent:**
@@ -177,7 +178,7 @@ services alike, each in its own Lisp.
 | `ping_lisp` | is anyone home |
 | `get_docs` / `get_docs_list` | built-in documentation, served on demand |
 | `http_request` | reach the service's HTTP endpoints through one gate |
-| `lisply_search` | search the bundled Gendl index (Readymacs consoles); see Bundled Gendl Search Index |
+| `lisply_search` | search the bundled Gendl index (Readymacs editing consoles); see Bundled Gendl Search Index |
 
 **Where it gets its configuration.** In a deployment, `./basalt up`
 generates the client registries (`mcp/claude_desktop_config.json` for
@@ -211,15 +212,15 @@ in the captures, and a virtual host resolves in-browser with
 
 Webshot drives a headless browser: the default image variants carry
 a lightweight headless shell for capture work; the workstation
-variants carry a full browser with a GUI behind it. A lite console
-can add the headless shell at runtime
-(`M-x skewed-install` `headless-shell`).
+variants carry a full browser with a GUI behind it. A lite editing
+console can add the headless shell at runtime (`M-x skewed-install`
+`headless-shell`).
 
 ### Bundled Gendl Search Index
 
 Every Readymacs image comes pre-packaged with a `lisply_search` index,
 built at image build time: a lexical index over Readymacs's own elisp
-and configuration and, so a standalone console works on its own, over
+and configuration and, so a standalone editing console works on its own, over
 the [Gendl](https://gitlab.common-lisp.net/gendl/gendl) engine's
 source and documentation. An agent asks `lisply_search` before it
 writes GDL and gets back whole `define-object` forms and documentation
@@ -231,7 +232,7 @@ carries its own corpus (Gendl does, under the `lisply.corpus` label)
 has that one file copied out by the deployment tooling at each start,
 and the deployment indexes whatever its configuration names from its
 own mount (the live Genworks demos, the training material at
-[genworks.dev](https://genworks.dev)). The console merges them over
+[genworks.dev](https://genworks.dev)). The editing console merges them over
 its baked index, a deployed corpus outranking a same-named baked one,
 so the Gendl searched is the Gendl actually running, not the one this
 image was built against. The contract every project follows to
@@ -255,7 +256,7 @@ gear, every piece of it real and reachable:
   time; see Bundled Gendl Search Index above.
 
 - **The web terminal** (port 6942, answering to `webterm` from any
-  shell in the container): how a person reaches the console through
+  shell in the container): how a person reaches the editing console through
   a web browser when no terminal is to hand. Agents connect through
   the MCP layer; people take the web terminal.
 
@@ -268,7 +269,7 @@ gear, every piece of it real and reachable:
   talk with an agent in one window while it works the deployment's
   services through MCP. See Bundled Agent CLIs below.
 
-- **Background processes**: the console runs its housekeeping as
+- **Background processes**: the editing console runs its housekeeping as
   ordinary Emacs subprocesses (the dashboard refresher, file
   watchers, long-running builds), visible in the buffer list
   (`C-x b`), never wedging the editor.
@@ -278,7 +279,7 @@ gear, every piece of it real and reachable:
   than on your host.
 
 - **`M-x skewed-install`**: capabilities added at runtime:
-  on-demand fitting of the headless browser onto a lite console, or
+  on-demand fitting of the headless browser onto a lite editing console, or
   the agent CLIs onto any variant, without rebuilding the image.
 
 ## In a Basalt Deployment (recommended)
