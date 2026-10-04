@@ -55,6 +55,22 @@ Still tracking upstream untranslated, on the catch-up list:
 
 ## Operational guidance
 
+**Work through the console's Emacs, not a shell.**  Reading, searching
+and editing workspace files -- Lisp or not -- goes through `lisp_eval`
+and the file helpers: `(lisply-read FILE N M)`, `(lisply-grep PATTERN
+DIR)`, `(lisply-replace FILE OLD NEW)`, `(lisply-form-replace FILE NAME
+TEXT)`; `(lisply-help)` lists them all.  They are bounded, check Lisp
+balance, and edit through a buffer the user has open rather than
+underneath it -- a file changed underneath one of the daemon's buffers
+makes Emacs prompt, and a prompt stops every MCP call.  The short guide
+is `get_docs(id="primer")` (source:
+`dot-files/emacs.d/sideloaded/lisply-backend/PRIMER.md`); where older
+guidance disagrees with it, the primer is current.  The helpers live in
+`lisply-file-tools.el`, with ERT tests beside it; a new helper goes
+there, with a test, and into `lisply-help-groups`.  A Basalt
+deployment's `mcp/install-claude-code-config` installs a Claude Code
+hook that refuses shell reads and edits of workspace files.
+
 The deep operational material — MCP usage patterns, the shared-buffer
 footgun, the event-loop/shell-guard rules, minibuffer-prompt hazards,
 webshot/webshot-clip, magit-as-plumbing, bulk-edit verification —
