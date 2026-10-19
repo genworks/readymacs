@@ -116,6 +116,19 @@ response is the whole story.
 > container is the sandbox, and nothing valuable is inside it unless
 > you mount it. On a host it is your machine.
 
+**Requiring a shared secret.** When a secret is configured, every
+endpoint except `/lisply/ping-lisp` answers only a request carrying it
+in the `X-Lisply-Secret` header, and returns 403 to any other. The MCP
+middleware sends it when started with `--admin-secret-file <file>` (or
+`--admin-secret <secret>`) and `--admin-secret-header X-Lisply-Secret`.
+The backend reads the secret from `emacs-lisply-secret` when set, else
+the environment variable `GENDL_LISPLY_SECRET`, else the first line of
+the file named by `GENDL_LISPLY_SECRET_FILE` -- the same names the Gendl
+backend reads, so a deployment configures every service once. All are
+read per request, the file again when it changes, so rotation needs no
+restart; a named file that cannot be read keeps the endpoints closed.
+With none set the endpoints are open, as before.
+
 Loading the backend by hand, in any Emacs with `simple-httpd`
 installed (`M-x package-install RET simple-httpd RET`):
 
@@ -147,6 +160,8 @@ and the warning.
   search, exact-text and whole-form edits, all bounded and
   balance-checked, and `lisply-help`, which lists every helper; its
   tests are `source/lisply-file-tools-test.el`
+- `source/lisply-secret.el` — the optional shared-secret check
+  (`X-Lisply-Secret`); its tests are `source/lisply-secret-test.el`
 - `source/lisply-edit-helpers.el`, `source/lisply-sexp-write.el` —
   finer helpers for GDL `define-object` sections, and for writing a
   whole Lisp file from s-expression data
