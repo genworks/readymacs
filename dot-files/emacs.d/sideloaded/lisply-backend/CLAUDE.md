@@ -436,12 +436,15 @@ Semantic and hybrid search require two things from the deployment: an
 embedding service for the query (`LISPLY_EMBED_URL`, the full URL of an
 OpenAI-compatible `/v1/embeddings` endpoint, with its bearer key in the
 file named by `LISPLY_EMBED_KEY_FILE`) and an embeddings companion for
-each corpus, built from that corpus by the same model (lisply-mcp
-`CORPUS.md`, section 7; `lisply-index --embed-corpus` builds one).  When
-either is missing -- no service configured, a service that does not
-respond (for example, a laptop away from its office network), or a
-companion built from another version of the corpus -- the search is
-answered lexically, exactly as before.  The response's `search_mode`
+each corpus, built from that corpus's text by the same model (lisply-mcp
+`CORPUS.md`, section 7; `lisply-index --embed-corpus` builds one, and
+re-embeds only the rows whose text changed).  A companion is matched to
+the corpus by a digest of the text it embedded, so a corpus rebuilt
+with unchanged text keeps it.  When either is missing -- no service
+configured, a service that does not respond (for example, a laptop
+away from its office network), or a companion built from different
+text -- the search is answered lexically, exactly as before.  Each
+query opens a new connection to the service.  The response's `search_mode`
 reports the ranking actually used, and each `corpora` entry carries
 `embeddings` (`current`, `none`, or the reason it is not used).  The
 outage is logged once, and the service is not contacted again for
