@@ -614,6 +614,42 @@ For personal customizations that shouldn't be committed to this
 repository, keep a file of your own, `~/.emacs-local`, read last
 at every Emacs startup.
 
+### Newcomer setting (opt-in)
+
+A person new to Emacs can be given a friendlier frame without
+changing the shared Emacs for anyone else.  Start a client with one
+variable set:
+
+```bash
+SKEWED_EMACS_NEWCOMER=1 emacsclient -t FILE
+```
+
+That frame, and no other, gets the menu bar; `Ctrl-S` to save and
+`Ctrl-Z` to undo; `Ctrl-C`, `Ctrl-X` and `Ctrl-V` to copy, cut and
+paste (copy and cut while text is selected -- otherwise, and when
+another key follows at once, they stay Emacs's prefix keys);
+which-key's pop-up after a pause on a prefix key; the mouse in a
+terminal (click, drag, wheel, menus); and one line across the top
+saying how to save and how to leave.
+
+- **Behind the web terminal**, the entry script sets the variable:
+  with `ttyd -a` among `WEBTERM_ARGS`, a second `?arg=` in the URL
+  can be the cue for the `WEBTERM_ENTRY` script to export it before
+  it runs `emacsclient -t`.
+- **For every frame**: set the variable in the environment Emacs
+  starts in, or `(setq skewed-newcomer-default t)` in
+  `~/.emacs-local`.  One client still opts out with
+  `SKEWED_EMACS_NEWCOMER=0`.
+- **From inside Emacs**: `M-x skewed-newcomer-toggle` switches the
+  selected frame.
+- **Your own clipboard** stays the terminal's business.  In a browser
+  terminal with the mouse on, Shift-drag selects for the browser to
+  copy, and Ctrl-Shift-V pastes from your machine.
+
+`dot-files/emacs.d/etc/skewed-newcomer.el` documents which parts are
+truly per frame and which are shared for as long as a newcomer frame
+exists; its tests are in the same directory.
+
 ## License
 
 AGPL-3.0-or-later, © 2026 Genworks International; portions © 2026
